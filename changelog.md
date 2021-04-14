@@ -1,5 +1,7 @@
 FNF DTAS Changelog - v5.0
-by Indigo, Cullen - committed 2021-04-13
+by IndigoFox, Cullen - committed 2021-04-14
+
+- Now allows 124 players.
 
 - Added 2x Optic Selection Menu via Ace Self Interaction available while in safe zone.
 

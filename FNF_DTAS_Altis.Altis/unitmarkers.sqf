@@ -23,7 +23,7 @@ _playerColor="ColorRed";
 _infMarkers = [];
 _textMarkers = [];
 _insertionMarkers = [];
-for "_i" from 0 to 60 do
+for "_i" from 0 to 62 do
 {
 	_currentMarker = createMarkerLocal [format ["mrki%1", _i], [1, 1]];
 	_currentMarker setMarkerShapeLocal "ICON";
@@ -220,7 +220,7 @@ while {true} do
 		};
 	} forEach allUnits;
 	
-	while {_i<61} do
+	while {_i<63} do
 	{
 		_currentMarker = _infMarkers select _i;
 		_currentMarker setMarkerAlphaLocal 0;
@@ -282,7 +282,7 @@ while {true} do
 		};
 	} forEach allGroups;
 	
-	while {_i<61} do
+	while {_i<63} do
 	{
 		_currentMarker = _insertionMarkers select _i;
 		_currentMarker setMarkerAlphaLocal 0;
