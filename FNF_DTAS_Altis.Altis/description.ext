@@ -127,6 +127,8 @@ class params
 
 	class LastPlayersCountdown
 	{
+		// this value defines how much max time left in round if only one player left on either side
+		// round time will be reduced if over this, or left alone if under this
 		title = $STR_LastPlayersCountdownSeconds;
 		values[] = {90, 120, 150, 180, 210, 240, 270, 300};
 		texts[] = {"90", "120", "150", "180", "210", "240", "270", "300"};
@@ -162,7 +164,7 @@ class params
 		title = $STR_AFKKillTime;
 		values[] = {30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 150, 180, 210, 240, 300, 600, 1200, 2400, 3600};
 		texts[] = {"30", "40", "50", "60", "60", "80", "90", "100", "110", "120", "150", "180", "210", "240", "300", "600", "1200", "2400", "3600"};
-		default = 180;
+		default = 120;
 	};
 
 	class nameLength
@@ -186,7 +188,7 @@ class params
 		title = $STR_Clouds;
 		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		texts[] = {"0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1"};
-		default = 0;
+		default = 3;
 	};
 
 	class FogParam

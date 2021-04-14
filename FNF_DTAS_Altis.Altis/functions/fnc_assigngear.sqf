@@ -1,4 +1,4 @@
-private ["_bGiveWeapons", "_aClassSide", "_currentClass", "_i", "_magCount", "_tempBackpackItems", "_backpack"];
+private ["_bGiveWeapons", "_aClassSide", "_currentClass", "_i", "_magCount", "_tempBackpackItems", "_backpack", "_chosenOptic"];
 
 //Set the 'finished' flag to false
 gearAssigned = false;
@@ -7,6 +7,10 @@ gearAssigned = false;
 
 //Get the give weapons param value
 _bGiveWeapons = _this select 0;
+
+// Get the weapon accessory in slot 3, which is the optic of primary weapon
+_chosenOptic = param [1, nil];
+
 
 //Figure out what class/side the player is going to be for the next round
 _aClassSide = nextAttackerSide;
@@ -56,6 +60,7 @@ if (_bGiveWeapons) then {
 } else {
 	phx_loadout_rifle_mag_tracer = "";
 	phx_loadout_rifle_mag = "";
+	phx_loadout_sidearm_mag = "";
 	phx_loadout_rifle_gl_he = "";
 	phx_loadout_rifle_gl_smoke = "";
 	phx_loadout_rifle_gl_flare = "";
@@ -71,6 +76,11 @@ if (_bGiveWeapons) then {
 };
 
 [] call compile preprocessFileLineNumbers format[ROLE_SQF_FILENAME select pRole];
+
+if (!isNil "_chosenOptic") then {
+	player addPrimaryWeaponItem _chosenOptic; 
+};
+
 
 //Set the 'finished' flag to true
 gearAssigned = true;

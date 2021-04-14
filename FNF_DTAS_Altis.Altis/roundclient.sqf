@@ -350,9 +350,14 @@ while {true} do
 	isPlaying = true;
 
 	//Give them their weapons
-	[true] call fnc_respawn;
+	_chosenOptic = (player weaponAccessories primaryWeapon player) select 2;
+	[true, _chosenOptic] call fnc_respawn;
+	
 	
 	player allowDamage true;
+
+	// Remove optics selection
+	["remove"] execVM "optics.sqf";
 
 	// Re-enable restriction checking.
 	restrictionCheckingEnabled = true;
@@ -424,4 +429,8 @@ while {true} do
 	"mrkDefaultInsertion" setMarkerAlphaLocal 0;
 	[] call fnc_reveal;
 	[] call fnc_roundEndMessage;
+
+	//Allow optics selection
+	["remove"] execVM "optics.sqf";
+	["add"] execVM "optics.sqf";
 };

@@ -57,7 +57,7 @@
 	</Container>
 	<Container name="Briefing">
 		<Key ID="STR_BriefingDescription">
-			<English>Dynamic Take And Secure by Gal Zohar, Enhanced by Fritz.</English>
+			<English>Dynamic Take And Secure by Gal Zohar, Modified for the Friday Night Fight.</English>
 			<Russian>Динамический захват и зачистка от Галь Зохара - Рандомальная атака и защита основанная на раундах миссия ПВП без респаунов.</Russian>
 		</Key>
 		<Key ID="STR_DTAS">
@@ -65,14 +65,14 @@
 			<Russian>ДИТАС</Russian>
 		</Key>
 		<Key ID="STR_GalZohar">
-			<English>Gal Zohar, Enhanced by Fritz</English>
+			<English>Gal Zohar, Fritz, FNF Technical Team</English>
 			<Russian>Галь Зохар</Russian>
 		</Key>
 		<Key ID="STR_Credits">
 			<English>Credits</English>
 		</Key>
 		<Key ID="STR_Credits1">
-			<English>Mission by Gal Zohar. Enhanced by Fritz.</English>
+			<English>Mission by Gal Zohar. Modernized and improved by the Friday Night Fight Technical Team.</English>
 			<Russian>Миссия от Галь Зохар</Russian>
 		</Key>
 		<Key ID="STR_Credits2">

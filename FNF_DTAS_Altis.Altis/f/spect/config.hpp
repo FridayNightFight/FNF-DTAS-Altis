@@ -119,6 +119,7 @@ class RscSpectMapControl
     style = 48;
     text = "#(argb,8,8,3)color(1,1,1,1)";
     type = 101;
+    widthRailWay = 1;
     w = "SafeZoneWAbs";
     x = "SafeZoneXAbs";
     y = "SafeZoneY + 1.5 *                  (           (           ((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
@@ -821,6 +822,7 @@ class f_spec_dialog {
             y = 0.772714 * safezoneH + safezoneY;
             w = 0.132213 * safezoneW;
             h = 0.21629 * safezoneH;
+            widthRailWay = 1;
             onMouseZChanged = "[""MapZoom"",_this] call F_fnc_EventHandler;";
             onMouseButtonClick = "_this call F_fnc_OnMapClick";
             onDraw = "_this call F_fnc_DrawMarkers";
@@ -833,6 +835,7 @@ class f_spec_dialog {
             y = 0 * safezoneH + safezoneY;
             w = 1 * safezoneW;
             h = 1 * safezoneH;
+            widthRailway = 1;
             onDraw = "_this call F_fnc_DrawMarkers";
             onMouseButtonClick = "_this call F_fnc_OnMapClick";
 

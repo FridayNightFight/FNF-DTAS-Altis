@@ -157,6 +157,8 @@ while {true} do
 
 			objPos = [_minX + random (_maxX - _minX), _minY + random (_maxY - _minY)];
 
+			_nearBuildings = nearestObjects [objPos, ["House_F"], 75, true] select {!(_x isKindOf "PowerLines_base_F" || _x isKindOf "PowerLines_Small_Base_F" || _x isKindOf "House_Small_F")};
+
 			if
 			(
 				(!(surfaceIsWater objPos))
@@ -164,6 +166,8 @@ while {true} do
 				(!(([objPos, (markerPos "respawn_west")] call fnc_airDistance) < (minDist + 50)))
 				&&
 				(!(([objPos, (markerPos "respawn_east")] call fnc_airDistance) < (minDist + 50)))
+				&&
+				count _nearBuildings > 2 && count _nearBuildings < 7
 			) then
 			{
 				_posFound = true;
@@ -267,6 +271,14 @@ while {true} do
 			_x setVariable ["isPlaying", true, true];
 		};
 	} forEach allUnits;
+
+	// special lastPlayersCountdown variable when less than 5 participating players
+	ulastPlayersCountdown = 0;
+	if (_dUnitcount + _aUnitCount <= 5) then {
+		ulastPlayersCountdown = 300;
+	} else {
+		ulastPlayersCountdown = lastPlayersCountdown;
+	};
 
 	canChangeClass = false;
 	publicVariable "canChangeClass";
@@ -496,11 +508,13 @@ while {true} do
 	waitUntil
 	{
 		if (trainingRound == 0) then {
+			
 			noPlayersLeft = {alive _x} count _dUnitArr == 0 || {alive _x} count _aUnitArr == 1 || {alive _x} count _aUnitArr <= 0.1 * _aUnitCount;
 		} else {
 			noPlayersLeft = {alive _x} count _dUnitArr == 0 && {alive _x} count _aUnitArr == 0;
 		};
 
+		// if all defenders die, or only 1 attacker left, or less than 10% of attackers left
 		noPlayersLeft
 		||
 		(bObjW && attackerSide == WEST) || (bObjE && attackerSide == EAST)
@@ -538,12 +552,12 @@ while {true} do
 					}
 					else
 					{
-						if ((time + lastPlayersCountdown) < roundEndTime) then
+						if ((time + ulastPlayersCountdown) < roundEndTime) then
 						{
-							fakeExtraDefenderTime = roundEndTime - time - lastPlayersCountdown;
+							fakeExtraDefenderTime = roundEndTime - time - ulastPlayersCountdown;
 							publicVariable "fakeExtraDefenderTime";
 
-							roundEndTime = time + lastPlayersCountdown;
+							roundEndTime = time + ulastPlayersCountdown;
 							bLastPlayersCountdown = true;
 							publicVariable "bLastPlayersCountdown";
 							updateTime = true;
