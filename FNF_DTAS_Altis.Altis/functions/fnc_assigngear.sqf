@@ -8,10 +8,6 @@ gearAssigned = false;
 //Get the give weapons param value
 _bGiveWeapons = _this select 0;
 
-// Get the weapon accessory in slot 3, which is the optic of primary weapon
-_chosenOptic = param [1, nil];
-
-
 //Figure out what class/side the player is going to be for the next round
 _aClassSide = nextAttackerSide;
 if (_bGiveWeapons) then
@@ -74,10 +70,12 @@ if (_bGiveWeapons) then {
 	phx_loadout_explosives = "";
 	phx_loadout_entrenching = "";
 	phx_loadout_smoke = "";
+	phx_loadout_cuffs = "";
 };
 
 [] call compile preprocessFileLineNumbers format[ROLE_SQF_FILENAME select pRole];
 
+_chosenOptic = player getVariable ["chosenOptic", nil];
 if (!isNil "_chosenOptic") then {
 	player addPrimaryWeaponItem _chosenOptic; 
 };
