@@ -3,9 +3,9 @@
 
 class Header
 {
-	gameType = Seize;
+	gameType = SC;
 	minPlayers = 4;
-	maxPlayers = 100;
+	maxPlayers = 124;
 };
 
 author = $STR_GalZohar;
