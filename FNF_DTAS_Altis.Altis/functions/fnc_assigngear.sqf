@@ -42,6 +42,7 @@ phx_loadout_cuffs = "ACE_CableTie:2";
 phx_loadout_explosives = "SatchelCharge_Remote_Mag:2";
 phx_loadout_defusalkit = "ACE_DefusalKit";
 phx_loadout_trigger = "ACE_Clacker";
+phx_loadout_PAK = "ACE_personalAidKit";
 phx_loadout_bandage = "ACE_fieldDressing:32";
 phx_loadout_morphine = "ACE_morphine:16";
 phx_loadout_epinephrine = "ACE_epinephrine:8";
