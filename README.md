@@ -1,11 +1,17 @@
 # Friday Night Fight DTAS
 
 ## **Dynamic Take and Secure**
+
 _Inspired by DTAS (Dynamic Take And Secure) for Infiltration, which is a realistic total conversion mod for the original Unreal Tournament (1999)._
+
 ### Development Timeline
+
 2013 : Authored by Gal Zohar ([Arma Israel](www.arma-il.info)), logo and Russian localization by Excess3
+
 2018 : Enhanced by Fritz
+
 2020 : Further customized by Martin
+
 2021 : Modernized and tailored for the Friday Night Fight by the FNF Technical Team
 
 
@@ -16,23 +22,37 @@ _Inspired by DTAS (Dynamic Take And Secure) for Infiltration, which is a realist
 - RHS AFRF
 - Task Force Arrowhead Radio
 
+---
+
 ## Gameplay Flow
+
+### **Joining**
+
+When players join the mission, they'll be auto-assigned to one side or the other.
 
 Players spawn in walled-in safe areas near opposite parts of the map. Scroll wheel interaction is enabled on the crates inside this zone allowing for the selection of different pre-defined loadouts such as Squad Leader, Automatic Rifleman, Grenadier, Machine Gunner, etc. TFAR radio channels are automatically assigned to players at the group (up to 3) and overall Side level.
 
-When players join the mission, they'll be auto-assigned to one side or the other.
+### **Planning**
 
 When they load in, players will have 60 seconds to grab kits and prepare (_subsequent rounds will allow only 30 seconds_). The objective location and their role in the next round (ATK/DEF) will be visible to allow for planning. The ACE Self-Interaction menu will also allow for the selection of a 1x-2x optic for their weapon, if appropriate.
 
 At the end of this planning period, attackers will spawn at a point nearby the objective in Humvees, and defenders will spawn on the objective. 
 
+### **Playing**
+
 The default round timer is 10 minutes. Attackers will have this much time to kill the defending team or occupy the target zone until captured. A round timer and capture progress indicator are shown in a HUD at the top of the screen.
 
 When all players of a side are killed, the round timer expires, or the objective is successfully captured by attackers, the round will end. All players will be moved back to their side's base to prepare for the next round.
 
+### **Switch Sides**
+
 Each objective location will offer two 'heats'. After the first heat, the sides will be swapped. Those who previously attacked will get a chance to defend the location, and vice versa.
 
+### **Next Round, New Location**
+
 Once both heats have been played for an objective location, it will move somewhere else on the map and the round will proceed after the planning period.
+
+---
 
 ## Game Mechanics
 

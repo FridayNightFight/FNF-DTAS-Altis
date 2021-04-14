@@ -21,4 +21,8 @@ by Indigo, Cullen - committed 2021-04-13
 
 - Sets frequencies the same per side.
 
+- Fixes loading screen image.
+
 - Adds some clouds.
+
+- Fixed some localization.

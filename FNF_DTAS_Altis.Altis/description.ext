@@ -12,8 +12,8 @@ author = $STR_GalZohar;
 onLoadName = $STR_DTAS;
 overviewText = $STR_BriefingDescription;
 onLoadMission = $STR_BriefingDescription;
-loadScreen = "images\dtaslogo.jpg";
-overviewPicture = "images\dtaslogo.jpg";
+loadScreen = "images\dtaslogo.paa";
+overviewPicture = "images\dtaslogo.paa";
 onLoadIntroTime = 0;
 joinUnassigned = 0;
 

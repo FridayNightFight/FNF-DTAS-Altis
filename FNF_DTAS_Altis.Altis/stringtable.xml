@@ -57,11 +57,11 @@
 	</Container>
 	<Container name="Briefing">
 		<Key ID="STR_BriefingDescription">
-			<English>Dynamic Take And Secure by Gal Zohar, Modified for the Friday Night Fight.</English>
+			<English>Dynamic Take And Secure by Gal Zohar, Modified for FNF</English>
 			<Russian>Динамический захват и зачистка от Галь Зохара - Рандомальная атака и защита основанная на раундах миссия ПВП без респаунов.</Russian>
 		</Key>
 		<Key ID="STR_DTAS">
-			<English>DTAS</English>
+			<English>Friday Night Fight DTAS</English>
 			<Russian>ДИТАС</Russian>
 		</Key>
 		<Key ID="STR_GalZohar">
@@ -669,7 +669,7 @@
 			<Russian>Ваша команда проиграла!</Russian>
 		</Key>
 		<Key ID="STR_TryWinAgain">
-			<English>Try win again! Next round will start shortly.</English>
+			<English>Try again! Next round will start shortly.</English>
 		</Key>
 		<Key ID="STR_TryWinNext">
 			<English>Do better next time! Next round will start shortly.</English>
