@@ -1,0 +1,277 @@
+#include "islandspecific.hpp"
+#include "f\loadout\cfgLoadouts.hpp"
+
+class Header
+{
+	gameType = Seize;
+	minPlayers = 4;
+	maxPlayers = 100;
+};
+
+author = $STR_GalZohar;
+onLoadName = $STR_DTAS;
+overviewText = $STR_BriefingDescription;
+onLoadMission = $STR_BriefingDescription;
+loadScreen = "images\dtaslogo.jpg";
+overviewPicture = "images\dtaslogo.jpg";
+onLoadIntroTime = 0;
+joinUnassigned = 0;
+
+disabledAI = 1;
+respawn = 3;
+respawndelay = 1;
+respawnDialog = false;
+
+class RscTitles
+{
+	#include "hud_dialog.cpp"
+};
+
+class CfgNotifications
+{
+	class DTASNotification
+	{
+		title = "%1";
+		//iconPicture = "\A3\ui_f\data\map\mapcontrol\taskIcon_ca.paa";
+		//iconText = "";
+		description = "%2"; // Brief description displayed as structured text. Colored by "color", filled by arguments.
+		color[] = {1,1,1,1}; // Icon and text color
+		duration = 15; // How many seconds will the notification be displayed
+		priority = 9; // Priority; higher number = more important; tasks in queue are selected by priority
+		difficulty[] = {}; // Required difficulty settings. All listed difficulties has to be enabled
+	};
+
+	class DTASNotificationCaptureWin : DTASNotification
+	{
+		iconPicture = "images\capture_win.paa";
+	};
+
+	class DTASNotificationCaptureLose : DTASNotification
+	{
+		iconPicture = "images\capture_lose.paa";
+	};
+
+	class DTASNotificationTimeOutWin : DTASNotification
+	{
+		iconPicture = "images\time_out_win.paa";
+	};
+
+	class DTASNotificationTimeOutLose : DTASNotification
+	{
+		iconPicture = "images\time_out_lose.paa";
+	};
+
+	class DTASNotificationEnemyTeamDead : DTASNotification
+	{
+		iconPicture = "images\enemy_team_dead.paa";
+	};
+
+	class DTASNotificationYourTeamDead : DTASNotification
+	{
+		iconPicture = "images\your_team_dead.paa";
+	};
+
+	class DTASNotificationAttackStart : DTASNotification
+	{
+		iconPicture = "images\attack_start.paa";
+		priority = 7;
+	};
+
+	class DTASNotificationDefenseStart : DTASNotification
+	{
+		iconPicture = "images\defence_start.paa";
+		priority = 7;
+	};
+};
+
+class CfgDebriefing
+{
+	class End1
+	{
+		title = $STR_YourTeamWon;
+		//subtitle = "";
+		description = $STR_TryWinAgain;
+		//backgroundPicture = "";
+		//picture = "b_inf";
+		//pictureColor[] = {0.0,0.3,0.6,1};
+	};
+
+	class End2
+	{
+		title = $STR_YourTeamLost;
+		//subtitle = "";
+		description = $STR_TryWinNext;
+		//backgroundPicture = "";
+		//picture = "b_inf";
+		//pictureColor[] = {0.0,0.3,0.6,1};
+	};
+};
+
+class params
+{
+	class MaxScore
+	{
+		title = $STR_BestOfX;
+		values[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+		texts[] = {"3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23", "25"};
+		default = 13;
+	};
+
+	class TimeLimit
+	{
+		title = $STR_RoundTimeLimit;
+		values[] = {1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+		texts[] = {"1", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+		default = 10;
+	};
+
+	class LastPlayersCountdown
+	{
+		title = $STR_LastPlayersCountdownSeconds;
+		values[] = {90, 120, 150, 180, 210, 240, 270, 300};
+		texts[] = {"90", "120", "150", "180", "210", "240", "270", "300"};
+		default = 120;
+	};
+
+	class SetupTime
+	{
+		title = $STR_PlanningTimeLimit;
+		values[] = {20, 30, 45, 60, 75, 90, 120, 150, 180, 210, 240, -1};
+		texts[] = {"20", "30", "45", "60", "75", "90", "120", "150", "180", "210", "240", $STR_Unlimited};
+		default = 30;
+	};
+
+	class FirstRoundSetupTime
+	{
+		title = $STR_FirstRoundPlanningTimeLimit;
+		values[] = {-2, 40, 60, 90, 120, 150, 180, 240, 300, 360, 420, 480, -1};
+		texts[] = {$STR_double, "40", "60", "90", "120", "150", "180", "240", "300", "360", "420", "480", $STR_Unlimited};
+		default = 60;
+	};
+
+	class DefaultAdminPaused
+	{
+		title = $STR_AutomaticAdminPause;
+		values[] = {0, 1, 2};
+		texts[] = {$STR_Never, $STR_FirstRoundOnly, $STR_Always};
+		default = 0;
+	};
+
+	class AFKKillTime
+	{
+		title = $STR_AFKKillTime;
+		values[] = {30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 150, 180, 210, 240, 300, 600, 1200, 2400, 3600};
+		texts[] = {"30", "40", "50", "60", "60", "80", "90", "100", "110", "120", "150", "180", "210", "240", "300", "600", "1200", "2400", "3600"};
+		default = 180;
+	};
+
+	class nameLength
+	{
+		title = $STR_MarkerNameLength;
+		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20};
+		texts[] = {$STR_NoMarkerNames, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"};
+		default = 10;
+	};
+
+	/* class DefenderGearQuality
+	{
+		title = $STR_DefenderGearQuality;
+		values[] = {0, 1};
+		texts[] = {$STR_Standard, $STR_Improved};
+		default = 0;
+	}; */
+
+	class OvercastParam
+	{
+		title = $STR_Clouds;
+		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		texts[] = {"0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1"};
+		default = 0;
+	};
+
+	class FogParam
+	{
+		title = $STR_Fog;
+		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		texts[] = {"0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1"};
+		default = 0;
+	};
+
+	/* class AttackerFactionParam
+	{
+		title = $STR_AttackerFactionParam;
+		values[] = {-1, 0, 1, 2, 3, 4};
+		texts[] = {$STR_Automatic, $STR_IDF, $STR_RHS_US_OCP, $STR_RHS_US_UCP, $STR_RHS_RU_EMR, $STR_VanilaUS};
+		default = 4;
+	};
+
+	class DefenderFactionParam
+	{
+		title = $STR_DefenderFactionParam;
+		values[] = {-1, 0, 1, 2, 3};
+		texts[] = {$STR_Automatic, $STR_HamasIDF, $STR_TerroristsHLCAK, $STR_TerroristsRHSAK, $STR_VanillaTerrorists};
+		default = 3;
+	}; */
+
+	class minDist
+	{
+		title = $STR_MinDist;
+		values[] = {250, 300, 350, 400, 500, 550, 600, 650, 700, 750, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1750, 2000};
+		texts[] = {"250", "300", "350", "400", "500", "550", "600", "650", "700", "750", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500", "1750", "2000"};
+		default = DEFAULT_MINDIST;
+	};
+
+	class capRad
+	{
+		title = $STR_CapRad;
+		values[] = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14 15, 17, 20, 23, 25, 27, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100};
+		texts[] = {"5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "17", "20", "23", "25", "27", "30", "35", "40", "45", "50", "60", "70", "80", "90", "100"};
+		default = 25;
+	};
+
+	class trainingRound
+	{
+		title = "Training Round";
+		values[] = {0, 1};
+		texts[] = {"No", "Yes"};
+		default = 0;
+	};
+
+	// Equipment
+	class phx_loadout_blufor_uniform {
+		title = "BLUFOR Uniform:";
+		values[] = UNIFORM_VALUES;
+		texts[] = UNIFORM_TEXTS;
+		default = UNIFORM_MARPAT_WD;
+	};
+	class phx_loadout_opfor_uniform {
+		title = "OPFOR Uniform:";
+		values[] = UNIFORM_VALUES;
+		texts[] = UNIFORM_TEXTS;
+		default = UNIFORM_EMR_SUMMER;
+	};
+	class phx_loadout_blufor_weapons {
+		title = "BLUFOR Weapons (R, LMG, HMG, AT):";
+		values[] = WEAPON_VALUES;
+		texts[] = WEAPON_TEXTS;
+		default = WEAPONS_M4A1_BLOCK_M249_M240G_M136_GUST;
+	};
+	class phx_loadout_opfor_weapons {
+		title = "OPFOR Weapons (R, LMG, HMG, AT):";
+		values[] = WEAPON_VALUES;
+		texts[] = WEAPON_TEXTS;
+		default = WEAPONS_AK74M_PKM_PKP_RPG7_RPG32;
+	};
+};
+
+#include "f\spect\config.hpp"
+class CfgFunctions {
+	class F {
+		#include "f\spect\functions.hpp"
+	};
+	class PHX {
+			#include "f\loadout\functions.hpp"
+	};
+};
+
+cba_settings_hasSettingsFile = 1;

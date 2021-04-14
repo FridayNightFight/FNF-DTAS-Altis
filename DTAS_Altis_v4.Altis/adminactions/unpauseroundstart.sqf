@@ -1,0 +1,2 @@
+adminPaused = false;
+publicVariable "adminPaused";
