@@ -8,7 +8,7 @@ _Inspired by DTAS (Dynamic Take And Secure) for Infiltration, which is a realist
 
 2013 : Authored by Gal Zohar ([Arma Israel](www.arma-il.info)), logo and Russian localization by Excess3
 
-2018 : Enhanced by Fritz
+2016 : Enhanced by Fritz
 
 2020 : Further customized by Martin
 
