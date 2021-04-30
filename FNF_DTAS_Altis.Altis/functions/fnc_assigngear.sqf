@@ -8,10 +8,6 @@ gearAssigned = false;
 //Get the give weapons param value
 _bGiveWeapons = _this select 0;
 
-// Get the weapon accessory in slot 3, which is the optic of primary weapon
-_chosenOptic = param [1, nil];
-
-
 //Figure out what class/side the player is going to be for the next round
 _aClassSide = nextAttackerSide;
 if (_bGiveWeapons) then
@@ -42,6 +38,7 @@ phx_loadout_cuffs = "ACE_CableTie:2";
 phx_loadout_explosives = "SatchelCharge_Remote_Mag:2";
 phx_loadout_defusalkit = "ACE_DefusalKit";
 phx_loadout_trigger = "ACE_Clacker";
+phx_loadout_PAK = "ACE_personalAidKit";
 phx_loadout_bandage = "ACE_fieldDressing:32";
 phx_loadout_morphine = "ACE_morphine:16";
 phx_loadout_epinephrine = "ACE_epinephrine:8";
@@ -67,16 +64,20 @@ if (_bGiveWeapons) then {
 	phx_loadout_automaticrifle_mag = "";
 	phx_loadout_mmg_mag = "";
 	phx_loadout_antitank_mag = "";
+	phx_loadout_antitank_mag_1 = "";
 	phx_loadout_mediumantitank_mag = "";
+	phx_loadout_mediumantitank_mag_1 = "";
 	phx_loadout_flare = "";
 	phx_loadout_grenade = "";
 	phx_loadout_explosives = "";
 	phx_loadout_entrenching = "";
 	phx_loadout_smoke = "";
+	phx_loadout_cuffs = "";
 };
 
 [] call compile preprocessFileLineNumbers format[ROLE_SQF_FILENAME select pRole];
 
+_chosenOptic = player getVariable ["chosenOptic", nil];
 if (!isNil "_chosenOptic") then {
 	player addPrimaryWeaponItem _chosenOptic; 
 };

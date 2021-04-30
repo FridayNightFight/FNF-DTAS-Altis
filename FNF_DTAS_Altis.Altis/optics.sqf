@@ -16,6 +16,7 @@ if (_addorremove == "add") then {
     _action = ["Optic_Selector",getText (configFile >> "cfgWeapons" >> _x >> "displayName"),"",{
       _optic = _this select 2;
       player addPrimaryWeaponItem _optic;
+      player setVariable ["chosenOptic", _optic];
     },{(_this select 2) in ([primaryWeapon player, "optic"] call CBA_fnc_compatibleItems)}, {}, _x] call ace_interact_menu_fnc_createAction;
     [(typeOf player), 1, ["ACE_SelfActions","Gear_Selector","Optic_Selector"], _action] call ace_interact_menu_fnc_addActionToClass;
   } forEach phx_selector_optics;

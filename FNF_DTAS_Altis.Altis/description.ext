@@ -22,6 +22,11 @@ respawn = 3;
 respawndelay = 1;
 respawnDialog = false;
 
+
+#include "\a3\ui_f\hpp\definecommongrids.inc"
+#include "ads\defines.hpp"
+#include "ads\controls.hpp"
+
 class RscTitles
 {
 	#include "hud_dialog.cpp"

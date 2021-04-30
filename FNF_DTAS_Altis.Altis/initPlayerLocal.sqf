@@ -1,1 +1,0 @@
-["add"] execVM "optics.sqf";

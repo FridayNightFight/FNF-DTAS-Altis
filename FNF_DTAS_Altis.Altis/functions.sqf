@@ -154,7 +154,6 @@ fnc_minGroupSize =
 fnc_respawn =
 {
 	private ["_bGiveWeapons"];
-	_chosenOptic = param [1, nil];
 	_bGiveWeapons = _this select 0;
 	if (!alive player) then
 	{
@@ -165,12 +164,16 @@ fnc_respawn =
 	player setVariable ["vehicleRole", [objNull, false]];
 	player setVariable ["playerAllowDamage", false, true];
 
-	if (!isNil "_chosenOptic") then {
-		[_bGiveWeapons, _chosenOptic] call fnc_assignGear;
-	} else {
-		[_bGiveWeapons] call fnc_assignGear;
-	};
+	[_bGiveWeapons] call fnc_assignGear;
 	
+	if (_bGiveWeapons) then {
+		// Remove optics selection
+		["remove"] execVM "optics.sqf";
+	} else {
+		// Add optics selection
+		["add"] execVM "optics.sqf";
+	};
+
 	player setFatigue 0;
 	
 	if(roundInProgress && !isPlaying) then {
