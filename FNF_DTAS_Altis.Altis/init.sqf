@@ -76,7 +76,7 @@ if (!isDedicated) then
 	isJoining = false;
 
 	execVM "briefing.sqf";
-	execVM "unitmarkers.sqf";
+	execVM "QS_icons.sqf";
 
 	call compile preprocessFileLineNumbers "f\loadout\defineclasses.sqf";
 
