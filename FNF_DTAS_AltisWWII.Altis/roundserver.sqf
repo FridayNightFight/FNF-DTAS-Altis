@@ -3,8 +3,8 @@ private ["_deleteTypes", "_i", "_j", "_changeAttackerSide", "_dUnitArr", "_aUnit
 //Define private vars
 _changeAttackerSide = true;
 _deleteTypes = ["GroundWeaponHolder", "WeaponHolderSimulated", "Default"];
-_jeepType =  "rhsusf_m1025_d";
-_jeepCrewCount = 4;
+_jeepType =  "fow_v_willys_usmc";
+_jeepCrewCount = 5;
 
 //Define public vars
 scoreW = 0;
