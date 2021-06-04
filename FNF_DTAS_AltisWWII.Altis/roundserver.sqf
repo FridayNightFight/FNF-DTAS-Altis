@@ -389,7 +389,8 @@ while {true} do
 
 			for "_i" from 0 to (_vehCount - 1) do
 			{
-				_pos = [(_pos select 0) - 10 * (sin _aStartDir), (_pos select 1) - 10 * (cos _aStartDir)];
+				_pos = [(_pos select 0) - 17 * (sin _aStartDir), (_pos select 1) - 17 * (cos _aStartDir)];
+				_pos = _pos findEmptyPosition [0, 30, _vehType];
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
 				if (surfaceIsWater _pos) then
