@@ -19,6 +19,7 @@ joinUnassigned = 0;
 
 disabledAI = 1;
 respawn = 3;
+respawnOnStart = 0;
 respawndelay = 1;
 respawnDialog = false;
 
@@ -277,7 +278,7 @@ class CfgFunctions {
 		#include "f\spect\functions.hpp"
 	};
 	class PHX {
-			#include "f\loadout\functions.hpp"
+		#include "f\loadout\functions.hpp"
 	};
 };
 

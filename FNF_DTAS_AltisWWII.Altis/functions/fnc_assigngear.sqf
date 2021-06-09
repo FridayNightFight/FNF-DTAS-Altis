@@ -35,14 +35,14 @@ phx_loadout_aid = "FirstAidKit:2";
 phx_loadout_smoke = "SmokeShell:4";
 phx_loadout_grenade = "HandGrenade:2";
 phx_loadout_cuffs = "ACE_CableTie:2";
-phx_loadout_explosives = "SatchelCharge_Remote_Mag:2";
+phx_loadout_explosives = "LIB_US_TNT_4pound_mag:2";
 phx_loadout_defusalkit = "ACE_DefusalKit";
-phx_loadout_trigger = "ACE_Clacker";
+phx_loadout_trigger = "ACE_LIB_LadungPM";
 phx_loadout_PAK = "ACE_personalAidKit";
-phx_loadout_bandage = "ACE_fieldDressing:32";
-phx_loadout_morphine = "ACE_morphine:16";
-phx_loadout_epinephrine = "ACE_epinephrine:8";
-phx_loadout_blood = "ACE_bloodIV:2";
+phx_loadout_bandage = "ACE_fieldDressing:28";
+phx_loadout_morphine = "ACE_morphine:12";
+phx_loadout_epinephrine = "ACE_epinephrine:5";
+phx_loadout_blood = "ACE_bloodIV_500:10";
 phx_loadout_maptools = "ACE_MapTools";
 phx_loadout_entrenching = "ACE_EntrenchingTool";
 [] call compile preprocessFileLineNumbers format["f\loadout\fn_loadout_uniforms.sqf"];
@@ -80,6 +80,29 @@ if (_bGiveWeapons) then {
 _chosenOptic = player getVariable ["chosenOptic", nil];
 if (!isNil "_chosenOptic") then {
 	player addPrimaryWeaponItem _chosenOptic; 
+};
+
+if (!isNil "loadoutNotes") then {[loadoutNotes] call CBA_fnc_removePerFrameHandler};
+
+loadoutNotes = [{
+	
+    [{
+		player removeDiarySubject "PHX_Diary";
+        PHX_Diary = player createDiarySubject ["PHX_Diary", "Loadout", "\a3\UI_F_Orange\Data\CfgMarkers\b_Ordnance_ca.paa"];
+        {
+            [_x] call phx_fnc_loadout_notes;
+        } forEach ((units group player));
+	}, [], 2] call CBA_fnc_waitAndExecute;
+}, 120] call CBA_fnc_addPerFrameHandler;
+
+if (!_bGiveWeapons) then {
+	[] spawn {
+		waitUntil {missionNamespace getVariable ["bKeepPlayerInBox", false]};
+		while {bKeepPlayerInBox} do {
+			{player removeMagazine _x} forEach (magazines player);
+			sleep 2;
+		};
+	};
 };
 
 

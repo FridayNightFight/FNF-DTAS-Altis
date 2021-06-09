@@ -1,3 +1,28 @@
+# v5.1
+IndigoFox
+2021-06-08
+
+## WWII
+
+- Adds respawn handling for reliable loadout assignment
+
+- Implements loadout notes to more easily view equipment you have
+
+- Updates item loadout counts for inventory size
+
+- Adds handler to prevent Panzerfaust 30 auto-load of ammo in spawn
+
+- Removes extraneous insertion methods
+
+- Adds validation for spawn location of attacker vehicles to mitigate collisions at round start
+
+- Updates legacy TFAR radio (deprecated) that was being assigned
+
+
+
+-----
+
+
 FNF DTAS Changelog - v5.0
 by IndigoFox, Cullen - committed 2021-04-14
 

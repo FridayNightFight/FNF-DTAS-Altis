@@ -17,10 +17,16 @@ _Inspired by DTAS (Dynamic Take And Secure) for Infiltration, which is a realist
 
 ## Mods Required
 
+Standard
 - CBA_A3
 - RHS USAF
 - RHS AFRF
 - Task Force Arrowhead Radio
+
+
+WWII
+- IFA
+- FOW
 
 ---
 

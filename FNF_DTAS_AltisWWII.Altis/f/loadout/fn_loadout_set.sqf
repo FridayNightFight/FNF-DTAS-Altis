@@ -18,16 +18,16 @@ phx_loadout_aid = "FirstAidKit:3";
 phx_loadout_smoke = "SmokeShell:4";
 phx_loadout_grenade = "HandGrenade:2";
 phx_loadout_cuffs = "ACE_CableTie:2";
-phx_loadout_explosives = "SatchelCharge_Remote_Mag:2";
+phx_loadout_explosives = "LIB_US_TNT_4pound_mag:2";
 phx_loadout_explosives_1 = "";
 phx_loadout_explosives_2 = "";
 phx_loadout_defusalkit = "ACE_DefusalKit";
-phx_loadout_trigger = "ACE_M26_Clacker";
+phx_loadout_trigger = "ACE_LIB_LadungPM";
 phx_loadout_PAK = "ACE_personalAidKit";
-phx_loadout_bandage = "ACE_fieldDressing:32";
-phx_loadout_morphine = "ACE_morphine:16";
-phx_loadout_epinephrine = "ACE_epinephrine:8";
-phx_loadout_blood = "ACE_bloodIV:4";
+phx_loadout_bandage = "ACE_fieldDressing:28";
+phx_loadout_morphine = "ACE_morphine:12";
+phx_loadout_epinephrine = "ACE_epinephrine:5";
+phx_loadout_blood = "ACE_bloodIV_500:10";
 phx_loadout_splint = "ACE_splint:2";
 phx_loadout_maptools = "ACE_MapTools";
 phx_loadout_entrenching = "ACE_EntrenchingTool";
@@ -274,6 +274,6 @@ switch (pRole) do {
 };
 
 // Generate loadout briefing page.
-call phx_fnc_loadout_notes;
+// call phx_fnc_loadout_notes;
 };
 }, 0, [(diag_tickTime+2.5),diag_frameno,_char,_loadout]] call CBA_fnc_addPerFrameHandler;

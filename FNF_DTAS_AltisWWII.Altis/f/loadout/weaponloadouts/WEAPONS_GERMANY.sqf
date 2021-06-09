@@ -9,7 +9,7 @@ phx_loadout_sidearm_mag = "LIB_8Rnd_9x19:2";
 phx_loadout_smoke = "SmokeShell:2";
 phx_loadout_grenade = "LIB_Shg24:2";
 
-if (pRole == ROLE_PL || pROLE == ROLE_SL) then {
+if (pRole == ROLE_PL || pROLE == ROLE_SL || pRole == ROLE_MGTL) then {
   phx_loadout_rifle_weapon = "fow_w_mp40";
   phx_loadout_rifle_mag_tracer = "LIB_32rnd_9x19_t:3";
   phx_loadout_rifle_mag = "LIB_32Rnd_9x19:7";
@@ -18,10 +18,12 @@ if (pRole == ROLE_PL || pROLE == ROLE_SL) then {
 if (pRole == ROLE_AR) then {
   phx_loadout_automaticrifle_weapon = "fow_w_stg44";
   phx_loadout_automaticrifle_mag = "fow_30Rnd_792x33:14";
+  allowedWeapons = [phx_loadout_automaticrifle_weapon];
 };
 if (pRole == ROLE_MG) then {
   phx_loadout_mmg_weapon = "fow_w_mg42";
   phx_loadout_mmg_mag = "LIB_50Rnd_792x57:9";
+  allowedWeapons = [phx_loadout_mmg_weapon];
 };
 
 //Magazine classnames for assistant AR and MMG ammo man roles

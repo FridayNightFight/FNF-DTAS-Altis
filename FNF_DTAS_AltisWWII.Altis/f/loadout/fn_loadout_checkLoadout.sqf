@@ -13,6 +13,7 @@ if !(hasInterface) exitWith {};
     } else {
         // Loadout was set, stop PFH
         diag_log format ["PHX [%1] checkLoadout - Loadout set, took %2 seconds",diag_tickTime,(diag_tickTime - _addTime)];
+
         [_handle] call CBA_fnc_removePerFrameHandler;
     };
 }, 0, [diag_tickTime]] call CBA_fnc_addPerFrameHandler;
