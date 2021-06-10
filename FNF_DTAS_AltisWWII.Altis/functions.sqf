@@ -160,7 +160,9 @@ fnc_respawn =
 		waitUntil {alive player};
 		[] call fnc_addActions;
 	};
-	player setVariable ["preferDriver", preferDriver, true];
+	if (!isNil "preferDriver") then {
+		player setVariable ["preferDriver", preferDriver, true];
+	};
 	player setVariable ["vehicleRole", [objNull, false]];
 	player setVariable ["playerAllowDamage", false, true];
 
