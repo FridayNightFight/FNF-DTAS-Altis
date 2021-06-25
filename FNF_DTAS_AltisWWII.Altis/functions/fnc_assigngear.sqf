@@ -85,14 +85,13 @@ if (!isNil "_chosenOptic") then {
 if (!isNil "loadoutNotes") then {[loadoutNotes] call CBA_fnc_removePerFrameHandler};
 
 loadoutNotes = [{
-	
-    [{
+	[_x] spawn {
 		player removeDiarySubject "PHX_Diary";
-        PHX_Diary = player createDiarySubject ["PHX_Diary", "Loadout", "\a3\UI_F_Orange\Data\CfgMarkers\b_Ordnance_ca.paa"];
-        {
-            [_x] call phx_fnc_loadout_notes;
-        } forEach ((units group player));
-	}, [], 2] call CBA_fnc_waitAndExecute;
+		PHX_Diary = player createDiarySubject ["PHX_Diary", "Loadout", "\a3\UI_F_Orange\Data\CfgMarkers\b_Ordnance_ca.paa"];
+		{
+			[_x] call phx_fnc_loadout_notes;
+		} forEach ((units group player));
+	};
 }, 120] call CBA_fnc_addPerFrameHandler;
 
 if (!_bGiveWeapons) then {

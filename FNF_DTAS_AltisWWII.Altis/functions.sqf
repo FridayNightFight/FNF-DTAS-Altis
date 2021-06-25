@@ -112,10 +112,92 @@ fnc_isLeaderWithGroup =
 	)
 };
 
+// function to init spectator
 fnc_nextSpectateUnit =
 {
 	spectateUnit = objNull;
-	[] call fnc_switchCamera;
+	// [] call fnc_switchCamera;
+
+	private _relPos = (markerPos "mrkObj") getPos [200, 180];
+	_relPos set [2, 150];
+	if (roundInProgress) then {
+		[
+			0, // free cam
+			objNull, // random player around objective selectRandom((markerPos "mrkObj") nearEntities ["Man", 1000])
+			-2, // normal vision mode
+			_relPos, // position south of objective
+			0 // facing north
+		] call ace_spectator_fnc_setCameraAttributes;
+	} else {
+
+		[
+			0, // free cam
+			objNull, // no focus
+			-2, // normal vision mode
+			_relPos, // position south of objective
+			0 // facing north
+		] call ace_spectator_fnc_setCameraAttributes;
+	};
+
+
+	[allPlayers] call ace_spectator_fnc_updateUnits;
+
+
+	// * Possible camera modes are:
+	// *   - 0: Free
+	// *   - 1: First person
+	// *   - 2: Follow
+	[[0,1,2]] call ace_spectator_fnc_updateCameraModes;
+
+
+	// * Possible vision modes are:
+	// *   - -2: Normal
+	// *   - -1: Night vision
+	// *   -  0: White hot
+	// *   -  1: Black hot
+	// *   -  2: Light Green Hot / Darker Green cold
+	// *   -  3: Black Hot / Darker Green cold
+	// *   -  4: Light Red Hot / Darker Red Cold
+	// *   -  5: Black Hot / Darker Red Cold
+	// *   -  6: White Hot / Darker Red Cold
+	// *   -  7: Thermal (Shade of Red and Green, Bodies are white)
+	[[-2,1], [-1,0,2,3,4,5,6,7]] call ace_spectator_fnc_updateVisionModes;
+
+
+	// * Arguments:
+	// * 0: Spectator state of local client <BOOL> (default: true)
+	// * 1: Force interface <BOOL> (default: true)
+	// * 2: Hide player (if alive) <BOOL> (default: true)
+	[true, false, false] call ace_spectator_fnc_setSpectator;
+	[player, true] call TFAR_fnc_forceSpectator;
+
+
+
+	//Draw 3d icons
+	phx_drawObjective = [{
+		_objMark = "mrkObj";
+		if (markerType _objMark isEqualTo "" || !ace_spectator_isset) then {
+			[_handle] call CBA_fnc_removePerFrameHandler;
+		} else {
+			drawIcon3D ["a3\ui_f\data\map\Markers\Military\objective_CA.paa", [1,0,0,0.8], markerPos _objMark, 0.6, 0.6, 45];
+		};
+	} , 0] call CBA_fnc_addPerFrameHandler;
+
+	phx_drawInsertion = [{
+		_insertionMark = "mrkDefaultInsertion";
+		if (markerType _insertionMark isEqualTo "" || !ace_spectator_isset || playerSide != attackerSide) then {
+			[_handle] call CBA_fnc_removePerFrameHandler;
+		} else {
+			drawIcon3D ["\A3\ui_f\data\map\markers\handdrawn\start_CA.paa", [0,0.8,0,0.8], markerPos _insertionMark, 0.6, 0.6, 0];
+		};
+	} , 0] call CBA_fnc_addPerFrameHandler;
+};
+
+// function to exit spectator
+fnc_switchCamera =
+{
+	[false] call ace_spectator_fnc_setSpectator;
+	[player, false] call TFAR_fnc_forceSpectator;
 };
 
 fnc_vehicleAllowDamage =
@@ -155,9 +237,9 @@ fnc_respawn =
 {
 	private ["_bGiveWeapons"];
 	_bGiveWeapons = _this select 0;
-	if (!alive player) then
+	if (!alive player || !(player isKindOf "CAManBase")) then
 	{
-		waitUntil {alive player};
+		waitUntil {alive player && player isKindOf "CAManBase"};
 		[] call fnc_addActions;
 	};
 	if (!isNil "preferDriver") then {
@@ -178,7 +260,7 @@ fnc_respawn =
 
 	player setFatigue 0;
 	
-	if(roundInProgress && !isPlaying) then {
+	if (roundInProgress && !isPlaying) then {
 		[] call fnc_nextSpectateUnit;
 		//hint "Round in Progress and Player is not playing";
 	} else {
@@ -238,27 +320,4 @@ fnc_setupObjPos =
 	forceRoundStart = false;
 	
 	publicVariable "aStartPosPicked";
-};
-
-fnc_switchCamera =
-{
-	if (isNull spectateUnit) then
-	{
-		isSpectating = true;
-		[player,player,true,true,true] call F_fnc_CamInit;
-	}
-	else 
-	{
-		if (spectateUnit == player) then
-		{
-			isSpectating = false;
-			[] call F_fnc_ForceExit;
-			[player, false] call TFAR_fnc_forceSpectator;
-		} 
-		else 
-		{
-			isSpectating = true;
-			[player,player,true,true,true] call F_fnc_CamInit;
-		};	
-	};
 };

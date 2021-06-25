@@ -34,7 +34,7 @@ player setVariable ["vehicleRole", [objNull, false]];
 //Launch startup scripts
 execVM "capturetriggermsg.sqf";
 execVM "afkkiller.sqf";
-execVM "cursornames\cursornames_init.sqf";
+// execVM "cursornames\cursornames_init.sqf";
 
 // Run key press handler (disable spacebar scanning, group joining)
 disableSerialization;
@@ -403,6 +403,7 @@ while {true} do
 	{
 		//Yep, launch spectator
 		//[] call fnc_nextSpectateUnit;
+		[["You can enter spectator at any time"], ["using the yellow box at spawn."], [getText(configfile >> "CfgVehicles" >> "Land_CinderBlocks_F" >> "EditorPreview"), 3]] call CBA_fnc_notify;
 	}
 	else
 	{

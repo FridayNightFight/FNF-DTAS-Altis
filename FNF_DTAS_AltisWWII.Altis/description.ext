@@ -18,7 +18,7 @@ onLoadIntroTime = 0;
 joinUnassigned = 0;
 
 disabledAI = 1;
-respawn = 3;
+respawn = 3; // Players respawn at base
 respawnOnStart = 0;
 respawndelay = 1;
 respawnDialog = false;
@@ -274,9 +274,9 @@ class params
 
 #include "f\spect\config.hpp"
 class CfgFunctions {
-	class F {
-		#include "f\spect\functions.hpp"
-	};
+	// class F {
+	// 	#include "f\spect\functions.hpp"
+	// };
 	class PHX {
 		#include "f\loadout\functions.hpp"
 	};
