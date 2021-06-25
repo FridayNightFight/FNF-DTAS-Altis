@@ -77,6 +77,8 @@ if (_bGiveWeapons) then {
 
 [] call compile preprocessFileLineNumbers format[ROLE_SQF_FILENAME select pRole];
 
+if (_bGiveWeapons) then {if (needReload player == 1) then {reload player}};
+
 _chosenOptic = player getVariable ["chosenOptic", nil];
 if (!isNil "_chosenOptic") then {
 	player addPrimaryWeaponItem _chosenOptic; 
