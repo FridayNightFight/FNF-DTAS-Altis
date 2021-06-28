@@ -12,6 +12,12 @@ switch (pWeapons) do {
     case WEAPONS_AK74M_PKM_PKP_RPG7_RPG32: {
       [] call giveOPFORLoadout;
     };
+    case WEAPONS_USA: {
+      #include "weaponloadouts\WEAPONS_USA.sqf"
+    };
+    case WEAPONS_GERMANY: {
+      #include "weaponloadouts\WEAPONS_GERMANY.sqf"
+    };
     case WEAPONS_M16A4_M249_M240G_M136_GUST: {
       [] call giveBLUFORLoadout;
       #include "weaponloadouts\WEAPONS_M16A4_M249_M240G_M136_GUST.sqf"

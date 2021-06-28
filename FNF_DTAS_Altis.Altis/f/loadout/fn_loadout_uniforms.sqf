@@ -12,6 +12,12 @@ switch (pUniform) do {
     case UNIFORM_OCP: {
       #include "uniformloadouts\UNIFORM_OCP.sqf"
     };
+    case UNIFORM_USA: {
+      #include "uniformloadouts\UNIFORM_USA.sqf"
+    };
+    case UNIFORM_GERMANY: {
+      #include "uniformloadouts\UNIFORM_GERMANY.sqf"
+    };
     case UNIFORM_G3_BLACK: {
       #include "uniformloadouts\UNIFORM_G3_BLACK.sqf"
     };

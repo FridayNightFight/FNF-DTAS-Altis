@@ -1,9 +1,9 @@
 private ["_TFRChannel", "_radio", "_activeSWRadio"];
 
-_radio = "tf_anprc152";
+_radio = "TFAR_anprc152";
 if (sidePlayer == east) then
 {
-	_radio = "tf_fadak";
+	_radio = "TFAR_fadak";
 };
 player linkItem _radio;
 

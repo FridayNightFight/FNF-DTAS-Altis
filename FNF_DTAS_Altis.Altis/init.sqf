@@ -80,6 +80,14 @@ if (!isDedicated) then
 
 	call compile preprocessFileLineNumbers "f\loadout\defineclasses.sqf";
 
+	[
+		0, // free cam
+		objNull, // no focus
+		-2, // normal vision mode
+		_relPos, // position south of objective
+		0 // facing north
+	] call ace_spectator_fnc_setCameraAttributes;
+
 	sleep .01;
 
 	execVM "roundclient.sqf";

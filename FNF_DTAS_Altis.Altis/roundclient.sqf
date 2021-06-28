@@ -403,6 +403,7 @@ while {true} do
 	{
 		//Yep, launch spectator
 		//[] call fnc_nextSpectateUnit;
+		[["You can enter spectator at any time"], ["using the yellow box at spawn."], [getText(configfile >> "CfgVehicles" >> "Land_CinderBlocks_F" >> "EditorPreview"), 3]] call CBA_fnc_notify;
 	}
 	else
 	{

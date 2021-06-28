@@ -1,0 +1,1 @@
+[false] call fnc_respawn;
