@@ -77,9 +77,33 @@ if (_bGiveWeapons) then {
 
 [] call compile preprocessFileLineNumbers format[ROLE_SQF_FILENAME select pRole];
 
+if (_bGiveWeapons) then {if (needReload player == 1) then {reload player}};
+
 _chosenOptic = player getVariable ["chosenOptic", nil];
 if (!isNil "_chosenOptic") then {
 	player addPrimaryWeaponItem _chosenOptic; 
+};
+
+if (!isNil "loadoutNotes") then {[loadoutNotes] call CBA_fnc_removePerFrameHandler};
+
+loadoutNotes = [{
+	[_x] spawn {
+		player removeDiarySubject "PHX_Diary";
+		PHX_Diary = player createDiarySubject ["PHX_Diary", "Loadout", "\a3\UI_F_Orange\Data\CfgMarkers\b_Ordnance_ca.paa"];
+		{
+			[_x] call phx_fnc_loadout_notes;
+		} forEach ((units group player));
+	};
+}, 120] call CBA_fnc_addPerFrameHandler;
+
+if (!_bGiveWeapons) then {
+	[] spawn {
+		waitUntil {missionNamespace getVariable ["bKeepPlayerInBox", false]};
+		while {bKeepPlayerInBox} do {
+			{player removeMagazine _x} forEach (magazines player);
+			sleep 2;
+		};
+	};
 };
 
 

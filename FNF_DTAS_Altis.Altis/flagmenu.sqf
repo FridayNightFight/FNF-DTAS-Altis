@@ -90,7 +90,7 @@ _obj addAction ["Spectate", "[] call fnc_nextSpectateUnit", [], 0, false, false,
 
 //TFAR Channels
 choosingTFRChannel = false;
-_obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_ChooseTFRChannel"], "choosetfrchannelmenu.sqf", [_obj], 2, false, true, "", "(!choosingTFRChannel) && ([player] call fnc_isLeaderWithGroup)"];
+_obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_ChooseTFRChannel"], "choosetfrchannelmenu.sqf", [_obj], 2, false, true, "", "(!choosingTFRChannel)"];
 _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_EnableCommandChannel"], "enablecommandchannel.sqf", [true], 1, false, true, "", "!commandChannelEnabled"];
 _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_DisableCommandChannel"], "enablecommandchannel.sqf", [false], 1, false, true, "", "commandChannelEnabled"];
 

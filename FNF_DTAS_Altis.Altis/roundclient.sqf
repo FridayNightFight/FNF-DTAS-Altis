@@ -34,7 +34,7 @@ player setVariable ["vehicleRole", [objNull, false]];
 //Launch startup scripts
 execVM "capturetriggermsg.sqf";
 execVM "afkkiller.sqf";
-execVM "cursornames\cursornames_init.sqf";
+// execVM "cursornames\cursornames_init.sqf";
 
 // Run key press handler (disable spacebar scanning, group joining)
 disableSerialization;

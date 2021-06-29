@@ -274,6 +274,6 @@ switch (pRole) do {
 };
 
 // Generate loadout briefing page.
-call phx_fnc_loadout_notes;
+// call phx_fnc_loadout_notes;
 };
 }, 0, [(diag_tickTime+2.5),diag_frameno,_char,_loadout]] call CBA_fnc_addPerFrameHandler;
