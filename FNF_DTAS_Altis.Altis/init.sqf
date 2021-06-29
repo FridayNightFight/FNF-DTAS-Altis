@@ -53,7 +53,16 @@ if (isServer) then
 		};
 	};
 
+	phx_spectateHandler = [{
+
+		private _activePlayers = allPlayers select {_x getVariable ["isPlaying", false]};
+		
+		[_activePlayers] remoteExec ["ace_spectator_fnc_updateUnits", -2];
+
+	}, 5] call CBA_fnc_addPerFrameHandler;
+
 	execVM "roundserver.sqf";
+
 };
 
 //Setup event handlers that watch for mission end and display appropriate crap
