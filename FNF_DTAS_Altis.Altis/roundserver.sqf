@@ -236,7 +236,6 @@ while {true} do
 		};
 	} forEach allDead;
 
-
 	// Clean up other objects near previous objective and spawns
 	_toDelete = nearestObjects [markerPos "mrkObj1", _deleteTypes, deleteRadius];
 	_toDelete = _toDelete + ((markerPos "mrkObj1") nearObjects ["Default", deleteRadius]); // fix for bug with detecting satchels
