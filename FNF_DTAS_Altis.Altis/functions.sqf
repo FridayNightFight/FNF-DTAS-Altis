@@ -139,10 +139,6 @@ fnc_nextSpectateUnit =
 		] call ace_spectator_fnc_setCameraAttributes;
 	};
 
-
-	[allPlayers] call ace_spectator_fnc_updateUnits;
-
-
 	// * Possible camera modes are:
 	// *   - 0: Free
 	// *   - 1: First person
@@ -171,7 +167,7 @@ fnc_nextSpectateUnit =
 	[true, false, false] call ace_spectator_fnc_setSpectator;
 	[player, true] call TFAR_fnc_forceSpectator;
 
-
+	[allUnits] call ace_spectator_fnc_updateUnits;
 
 	//Draw 3d icons
 	phx_drawObjective = [{

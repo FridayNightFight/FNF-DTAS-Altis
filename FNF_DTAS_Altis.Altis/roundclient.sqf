@@ -54,7 +54,7 @@ _defaultInsertionMarker setMarkerAlphaLocal 0;
 // Setup the initial objective marker (locally)
 _aRadiusMarker = createMarkerLocal ["mrkAZone", [1, 1]];
 _aRadiusMarker setMarkerShapeLocal "ELLIPSE";
-_aRadiusMarker setMarkerBrushLocal "Border";
+_aRadiusMarker setMarkerBrushLocal "SolidBorder";
 _aRadiusMarker setMarkerColorLocal "COLORRED";
 _aRadiusMarker setMarkerSizeLocal [minDist, minDist];
 _aRadiusMarker setMarkerAlphaLocal 0;
@@ -403,7 +403,7 @@ while {true} do
 	{
 		//Yep, launch spectator
 		//[] call fnc_nextSpectateUnit;
-		[["You can enter spectator at any time"], ["using the yellow box at spawn."], [getText(configfile >> "CfgVehicles" >> "Land_CinderBlocks_F" >> "EditorPreview"), 3]] call CBA_fnc_notify;
+		// [["You can enter spectator at any time"], ["using the yellow box at spawn."], [getText(configfile >> "CfgVehicles" >> "Land_CinderBlocks_F" >> "EditorPreview"), 3]] call CBA_fnc_notify;
 	}
 	else
 	{
