@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=471;
+		nextID=477;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=472;
+		nextID=473;
 	};
 	class Camera
 	{
-		pos[]={2663.5872,14.515462,9834.252};
-		dir[]={0.081956953,-0.30697727,0.9481858};
-		up[]={0.026435113,0.95171666,0.30583951};
-		aside[]={0.99628961,1.4065881e-007,-0.086115316};
+		pos[]={2665.1523,24.528444,9800.5605};
+		dir[]={0.056714069,-0.39579484,0.91658705};
+		up[]={0.024443222,0.91833985,0.39503986};
+		aside[]={0.99809301,1.4959369e-008,-0.061757285};
 	};
 };
 binarizationWanted=0;
@@ -236,12 +236,12 @@ class Mission
 		overviewText="A 124-player dynamically generated sector-capture game mode.";
 		resistanceWest=0;
 		startWeather=0;
-		startWind=1;
+		startWind=0.24397931;
 		startWindDir=320;
 		startWaves=0.099999994;
 		startGust=0.10049523;
 		forecastWeather=0;
-		forecastWind=1;
+		forecastWind=0.15395014;
 		forecastWaves=0.099999994;
 		forecastLightnings=0.099999994;
 		forecastGust=0.10049523;
@@ -3082,7 +3082,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2675.5305,5.7500563,9850.2754};
+						position[]={2675.3484,5.7115636,9850.0488};
 						angles[]={6.0934935,6.2758169,6.2551923};
 					};
 					side="West";
@@ -3495,7 +3495,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2675.3445,4.3509178,9842.917};
+						position[]={2675.4124,4.33599,9842.8164};
 						angles[]={6.1193342,6.2758203,0.025327841};
 					};
 					side="West";
@@ -3509,7 +3509,7 @@ class Mission
 					};
 					id=196;
 					type="B_Soldier_F";
-					atlOffset=-4.7683716e-007;
+					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3558,7 +3558,7 @@ class Mission
 			{
 			};
 			id=195;
-			atlOffset=-4.7683716e-007;
+			atlOffset=4.7683716e-007;
 		};
 		class Item95
 		{

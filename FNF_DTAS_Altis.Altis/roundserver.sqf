@@ -3,7 +3,19 @@ private ["_deleteTypes", "_i", "_j", "_changeAttackerSide", "_dUnitArr", "_aUnit
 //Define private vars
 _changeAttackerSide = true;
 _deleteTypes = ["GroundWeaponHolder", "WeaponHolderSimulated", "Default"];
-_jeepType =  "rhsusf_m1025_d";
+_jeepType = {
+	selectRandomWeighted [
+		"rhsusf_m1025_d", 0.7,
+		"rhsusf_m1043_d", 0.7,
+		"rhs_usf_m998_d_2dr_fulltop", 0.7,
+		"rhsusf_m998_d_4dr_fulltop", 0.7,
+		"rhsusf_m998_d_2dr_halftop", 0.7,
+		"rhsusf_M1239_socom_d", 0.5,
+		"rhsusf_M1238A1_socom_d", 0.5,
+		"rhsusf_m1151_m240_v1_usarmy_d", 0.25,
+		"rhsusf_m113d_usarmy_M240", 0.25
+	]
+};
 _jeepCrewCount = 4;
 
 //Define public vars
@@ -255,16 +267,16 @@ while {true} do
 	_dUnitCount = 0;
 	_aUnitCount = 0;
 	{
-		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", false])) then
+		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", true])) then
 		{
 			if (side _x == attackerSide) then
 			{
-				_aUnitArr set [_aUnitCount, _x];
+				_aUnitArr pushBack _x;
 				_aUnitCount = _aUnitCount + 1;
 			}
 			else
 			{
-				_dUnitArr set [_dUnitCount, _x];
+				_dUnitArr pushBack _x;
 				_dUnitCount = _dUnitCount + 1;
 			};
 			_x setVariable ["ready", false];
@@ -322,8 +334,8 @@ while {true} do
 					// Jeep
 					case 0:
 					{
-						_vehType = _jeepType;
-						_slotCount = _jeepCrewCount;
+						_vehType = call _jeepType;
+						_slotCount = ([_vehType, true] call BIS_fnc_crewCount) min 3;
 					};
 					// Boat
 					case 1:
@@ -352,8 +364,8 @@ while {true} do
 			_bCont = false;
 			_bSpawn = (count _units > 0);
 
-			_vehType = _jeepType;
-			_slotCount = 4;
+			_vehType = call _jeepType;
+			_slotCount = (([_vehType, true] call BIS_fnc_crewCount) max 3);
 		};
 
 		if (_bSpawn) then
@@ -365,32 +377,12 @@ while {true} do
 				_pos = _group getVariable ["insertionPos", defaultInsertionPos];
 			};
 
-			_dx = (objPos select 0) - (_pos select 0);
-			_dy = (objPos select 1) - (_pos select 1);
-			_aStartDir = atan (_dy / _dx);
-			if (_dx < 0) then
-			{
-				_aStartDir = _aStartDir + 180;
-			};
-			if (_dx == 0) then
-			{
-				if (_dy > 0) then
-				{
-					_aStartDir = 90;
-				}
-				else
-				{
-					_aStartDir = -90;
-				};
-			};
-			_aStartDir = 90 - _aStartDir;
-
 			_vehicleIndex = count vehArr;
 
 			for "_i" from 0 to (_vehCount - 1) do
 			{
-				// _pos = [(_pos select 0) - 17 * (sin _aStartDir), (_pos select 1) - 17 * (cos _aStartDir)];
-				_pos = (_pos) findEmptyPosition [5, 100, _vehType];
+				// _pos = (_pos) findEmptyPosition [5, 100, _vehType];
+				_pos = [_pos, 5, 200, 8, 0, 60, 0] call BIS_fnc_findSafePos;
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
 				if (surfaceIsWater _pos) then
@@ -398,7 +390,7 @@ while {true} do
 					_spawnMode = "FLY";
 				};
 				_veh = createVehicle [_vehType, _pos, [], 3, _spawnMode];
-				_veh setDir _aStartDir;
+				_veh setDir (_pos getDir objPos);
 
 				clearWeaponCargoGlobal _veh;
 				clearMagazineCargoGlobal _veh;
@@ -506,10 +498,43 @@ while {true} do
 		publicVariable "adminPaused";
 	};
 
+
+
+	sleep 2;
+	atkHasMat = _aUnitArr select {_x hasWeapon "rhs_weap_maaws"};
+	defHasMat = _dUnitArr select {_x hasWeapon "launch_RPG32_green_F"};
+	fnc_limitMATCount = {
+		params ["_units", "_numberPer10Players", "_aOrD"];
+		while {count _units > (count _units / (10/_numberPer10Players))} do {
+			_removeMAT = selectRandom _units;
+			_units deleteAt (_units find _removeMAT);
+			switch (_aOrD) do {
+				case "A": {
+					{
+						currentAClass = (selectRandom aClasses);
+						[true] call fnc_respawn;
+					} remoteExec ["call", _removeMAT];
+				};
+				case "D": {
+					{
+						currentDClass = (selectRandom dClasses);
+						[true] call fnc_respawn;
+					} remoteExec ["call", _removeMAT];
+				};
+			};
+		};
+	};
+	// limit MAT on each side to maximum 2 per 10 players
+	[defHasMat, 2, "D"] call fnc_limitMATCount;
+	[atkHasMat, 2, "A"] call fnc_limitMATCount;
+
+	sleep 10;
+
+
 	waitUntil
 	{
 		if (trainingRound == 0) then {
-			
+
 			noPlayersLeft = {alive _x} count _dUnitArr == 0 || {alive _x} count _aUnitArr == 1 || {alive _x} count _aUnitArr <= 0.1 * _aUnitCount;
 		} else {
 			noPlayersLeft = {alive _x} count _dUnitArr == 0 && {alive _x} count _aUnitArr == 0;

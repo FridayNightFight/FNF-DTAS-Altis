@@ -51,6 +51,18 @@ aClasses =
 	]
 
 	,[
+		"Rifleman (MAT)"
+		,ROLE_AT
+		,{}
+	]
+
+	,[
+		"Rifleman (LAT)"
+		,ROLE_RAT
+		,{}
+	]
+
+	,[
 		"Rifleman"
 		,ROLE_R
 		,{}
@@ -90,6 +102,12 @@ dClasses =
 	]
 
 	,[
+		"Combat Engineer"
+		,ROLE_CE
+		,{}
+	]
+
+	,[
 		"Machine Gunner"
 		,ROLE_MG
 		,{}
@@ -98,6 +116,12 @@ dClasses =
 	,[
 		"Ammo Man"
 		,ROLE_AM
+		,{}
+	]
+
+	,[
+		"Rifleman (MAT)"
+		,ROLE_AT
 		,{}
 	]
 

@@ -35,7 +35,7 @@ giveBLUFORLoadout = {
   };
   if (pRole == ROLE_RAT) then {
     phx_loadout_antitank_weapon = "rhs_weap_M136";
-    phx_loadout_antitank_mag = "rhs_m136_mag";
+    // phx_loadout_antitank_mag = "rhs_m136_mag";
   };
   if (pRole == ROLE_AT) then {
     phx_loadout_mediumantitank_weapon = "rhs_weap_maaws";

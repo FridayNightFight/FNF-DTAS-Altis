@@ -12,8 +12,12 @@ call phx_fnc_loadout_handleClothing; // Add clothing variables above this line!
 player addWeapon phx_loadout_rifle_weapon;
 [phx_loadout_mediumantitank_mag, "backpack"] call phx_fnc_loadout_handleGear;
 player addWeapon phx_loadout_mediumantitank_weapon;
-[phx_loadout_mediumantitank_mag_1, "backpack"] call phx_fnc_loadout_handleGear;
-player addSecondaryWeaponItem phx_loadout_mediumantitank_optic;
+if (!isNil "phx_loadout_mediumantitank_mag_1") then {
+	[phx_loadout_mediumantitank_mag_1, "backpack"] call phx_fnc_loadout_handleGear;
+};
+if (!isNil "phx_loadout_mediumantitank_optic") then {
+	player addSecondaryWeaponItem phx_loadout_mediumantitank_optic;
+};
 [phx_loadout_sidearm_mag, "uniform"] call phx_fnc_loadout_handleGear;
 player addWeapon phx_loadout_sidearm_weapon;
 

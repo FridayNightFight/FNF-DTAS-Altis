@@ -42,9 +42,15 @@ Players spawn in walled-in safe areas near opposite parts of the map. Scroll whe
 
 When they load in, players will have 60 seconds to grab kits and prepare (_subsequent rounds will allow only 30 seconds_). The objective location and their role in the next round (ATK/DEF) will be visible to allow for planning. The ACE Self-Interaction menu will also allow for the selection of a 1x-2x optic for their weapon, if appropriate.
 
+- Two MAT roles per 10 players on a side are allowed. This means that 20 players on DTAS = 10 players per side, and two MAT roles are permitted on each. If more than this select MAT role on a side, random players who selected MAT will have their roles randomized at round start until the limit is reached.
+- Combat Engineers are now available on both sides -- they will receive 4x small demolition blocks and a remote clacker.
+
 At the end of this planning period, attackers will spawn at a point nearby the objective in Humvees, and defenders will spawn on the objective. 
 
 ### **Playing**
+
+- Radios for players will now be automatically synchronized with their group leader at round start.
+- The vehicles in which attackers will spawn are now randomized with weighted values -- you may receive a standard unarmed HMMWV variant, or a jeep or APC with an M240 MMG.
 
 The default round timer is 10 minutes. Attackers will have this much time to kill the defending team or occupy the target zone until captured. A round timer and capture progress indicator are shown in a HUD at the top of the screen.
 

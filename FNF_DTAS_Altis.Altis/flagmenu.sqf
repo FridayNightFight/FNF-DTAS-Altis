@@ -89,10 +89,10 @@ _obj addAction [format ["<t color='#32cd32'>%1</t>", localize "STR_Ready"], "rea
 _obj addAction ["Spectate", "[] call fnc_nextSpectateUnit", [], 0, false, false, ""];
 
 //TFAR Channels
-choosingTFRChannel = false;
-_obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_ChooseTFRChannel"], "choosetfrchannelmenu.sqf", [_obj], 2, false, true, "", "(!choosingTFRChannel)"];
-_obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_EnableCommandChannel"], "enablecommandchannel.sqf", [true], 1, false, true, "", "!commandChannelEnabled"];
-_obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_DisableCommandChannel"], "enablecommandchannel.sqf", [false], 1, false, true, "", "commandChannelEnabled"];
+// choosingTFRChannel = false;
+// _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_ChooseTFRChannel"], "choosetfrchannelmenu.sqf", [_obj], 2, false, true, "", "(!choosingTFRChannel)"];
+// _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_EnableCommandChannel"], "enablecommandchannel.sqf", [true], 1, false, true, "", "!commandChannelEnabled"];
+// _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_DisableCommandChannel"], "enablecommandchannel.sqf", [false], 1, false, true, "", "commandChannelEnabled"];
 
 //Driving
 _obj addAction [format ["<t color='#a0a0a0'>%1</t>", localize "STR_PreferDriving"], "preferdriving.sqf", [true], 3, false, true, "", "!preferDriver"];

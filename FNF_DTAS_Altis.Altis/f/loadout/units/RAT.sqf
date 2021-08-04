@@ -4,7 +4,9 @@ call phx_fnc_loadout_handleClothing; // Add clothing variables above this line!
 // Add gear
 [phx_loadout_antitank_mag, "backpack"] call phx_fnc_loadout_handleGear;
 player addWeapon phx_loadout_antitank_weapon;
-[phx_loadout_antitank_mag_1, "backpack"] call phx_fnc_loadout_handleGear;
+if (!isNil "phx_loadout_antitank_mag_1") then {
+	[phx_loadout_antitank_mag_1, "backpack"] call phx_fnc_loadout_handleGear;
+};
 [phx_loadout_aid, "uniform"] call phx_fnc_loadout_handleGear;
 //[phx_loadout_splint, "uniform"] call phx_fnc_loadout_handleGear;
 [phx_loadout_smoke, "uniform"] call phx_fnc_loadout_handleGear;

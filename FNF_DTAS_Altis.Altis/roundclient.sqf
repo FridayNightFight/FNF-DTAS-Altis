@@ -2,8 +2,8 @@ Private ["_defaultInsertionMarker", "_aRadiusMarker", "_xOffset", "_yOffset", "_
 
 //default player class selection - correlates to loadout\defineclasses.sqf
 currentClass = ["", ""];
-currentAClass = aClasses select 8;
-currentDClass = dClasses select 8;
+currentAClass = aClasses select 10;
+currentDClass = dClasses select 10;
 
 //vars
 basePos = getPos player;
@@ -384,6 +384,23 @@ while {true} do
 		_taskMessageText = "STR_DefendTheZoneLong";
 		["DTASNotificationDefenseStart", [localize _taskMessageTitle, localize _taskMessageText]] spawn BIS_fnc_showNotification;
 	};
+
+
+	if (player isEqualTo (leader (group player))) then {
+		_radio = call TFAR_fnc_activeSwRadio;
+		player setVariable ["groupRadio", _radio, true];
+		sleep 1;
+	} else {
+		sleep 1;
+		_groupRadio = (leader (group player)) getVariable ["groupRadio", ""];
+		if !(_groupRadio isEqualTo "") then {
+			[_groupRadio, (call TFAR_fnc_activeSwRadio)] call TFAR_fnc_CopySettings;
+		};
+	};
+
+
+
+	
 
 	//Wait until the round ends or the player dies
 	waitUntil {!(alive player) || !roundInProgress};

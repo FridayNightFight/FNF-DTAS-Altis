@@ -35,7 +35,7 @@ phx_loadout_aid = "FirstAidKit:2";
 phx_loadout_smoke = "SmokeShell:4";
 phx_loadout_grenade = "HandGrenade:2";
 phx_loadout_cuffs = "ACE_CableTie:2";
-phx_loadout_explosives = "SatchelCharge_Remote_Mag:2";
+phx_loadout_explosives = "DemoCharge_Remote_Mag:4";
 phx_loadout_defusalkit = "ACE_DefusalKit";
 phx_loadout_trigger = "ACE_Clacker";
 phx_loadout_PAK = "ACE_personalAidKit";
@@ -53,7 +53,7 @@ removeGoggles player;
 
 //Determine whether or not to give the player weapons
 if (_bGiveWeapons) then {
-	[] call fnc_addRadio;
+	// [] call fnc_addRadio;
 } else {
 	phx_loadout_rifle_mag_tracer = "";
 	phx_loadout_rifle_mag = "";
@@ -63,6 +63,7 @@ if (_bGiveWeapons) then {
 	phx_loadout_rifle_gl_flare = "";
 	phx_loadout_automaticrifle_mag = "";
 	phx_loadout_mmg_mag = "";
+	phx_loadout_antitank_weapon = "";
 	phx_loadout_antitank_mag = "";
 	phx_loadout_antitank_mag_1 = "";
 	phx_loadout_mediumantitank_mag = "";

@@ -220,7 +220,7 @@ fnc_vehicleAllowDamage =
 fnc_minGroupSize =
 {
 	private ["_minGroupSize"];
-	_minGroupSize = (playersNumber (attackerSide)) / 3;
+	_minGroupSize = round((playersNumber (attackerSide)) / 3);
 	if (_minGroupSize > 3) then
 	{
 		_minGroupSize = 3;
