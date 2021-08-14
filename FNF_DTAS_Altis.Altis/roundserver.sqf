@@ -267,16 +267,16 @@ while {true} do
 	_dUnitCount = 0;
 	_aUnitCount = 0;
 	{
-		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", true])) then
+		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", false])) then
 		{
 			if (side _x == attackerSide) then
 			{
-				_aUnitArr pushBack _x;
+				_aUnitArr set [_aUnitCount, _x];
 				_aUnitCount = _aUnitCount + 1;
 			}
 			else
 			{
-				_dUnitArr pushBack _x;
+				_dUnitArr set [_dUnitCount, _x];
 				_dUnitCount = _dUnitCount + 1;
 			};
 			_x setVariable ["ready", false];
@@ -335,7 +335,7 @@ while {true} do
 					case 0:
 					{
 						_vehType = call _jeepType;
-						_slotCount = ([_vehType, true] call BIS_fnc_crewCount) min 3;
+						_slotCount = ([_vehType, true] call BIS_fnc_crewCount) min 4;
 					};
 					// Boat
 					case 1:
@@ -365,7 +365,7 @@ while {true} do
 			_bSpawn = (count _units > 0);
 
 			_vehType = call _jeepType;
-			_slotCount = (([_vehType, true] call BIS_fnc_crewCount) max 3);
+			_slotCount = 4;
 		};
 
 		if (_bSpawn) then
@@ -382,7 +382,7 @@ while {true} do
 			for "_i" from 0 to (_vehCount - 1) do
 			{
 				// _pos = (_pos) findEmptyPosition [5, 100, _vehType];
-				_pos = [_pos, 5, 200, 8, 0, 60, 0] call BIS_fnc_findSafePos;
+				_pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
 				if (surfaceIsWater _pos) then
