@@ -1,4 +1,4 @@
-private ["_deleteTypes", "_i", "_j", "_changeAttackerSide", "_dUnitArr", "_aUnitArr", "_dUnitCount", "_aUnitCount", "_minX", "_maxX", "_minY", "_maxY", "_vehType", "_vehCount", "_slotCount", "_veh", "_pos", "_aStartDir", "_zoneMarker", "_area", "_posFound", "_driverArray", "_driverArrayCount", "_passengerArray", "_passengerArrayCount", "_endTime", "_group", "_groups", "_groupIndex", "_maxGroupIndex", "_minGroupSize", "_unitsWithoutGroup", "_units", "_vehicleIndex", "_bCont", "_bSpawn", "_spawnMode", "_toDelete", "_crate", "_dx", "_dy", "_jeepType", "_jeepCrewCount"];
+private ["_deleteTypes", "_i", "_j", "_changeAttackerSide", "_dUnitArr", "_aUnitArr", "_dUnitCount", "_aUnitCount", "_minX", "_maxX", "_minY", "_maxY", "_vehType", "_vehCount", "_slotCount", "_veh", "_pos", "_aStartDir", "_zoneMarker", "_area", "_posFound", "_driverArray", "_driverArrayCount", "_passengerArray", "_passengerArrayCount", "_endTime", "_group", "_groups", "_groupIndex", "_maxGroupIndex", "_minGroupSize", "_unitsWithoutGroup", "_units", "_vehicleIndex", "_moreGroupsToSpawn", "_shouldSpawnThisGroup", "_spawnMode", "_toDelete", "_crate", "_dx", "_dy", "_jeepType", "_jeepCrewCount"];
 
 //Define private vars
 _changeAttackerSide = true;
@@ -100,22 +100,9 @@ vehArr = [];
 markerAreaArray = [];
 totalMarkerArea = 0;
 _j = 0;
-_markerPrefixCharArray = toArray "mrkZone";
-_maxi = count _markerPrefixCharArray;
+_markerPrefix = "mrkZone";
 {
-	_markerCharArray = toArray _x;
-	_equal = (count _markerCharArray) >= _maxi;
-	_i = 0;
-	while {_equal && _i < _maxi} do
-	{
-		if ((_markerCharArray select _i) != (_markerPrefixCharArray select _i)) then
-		{
-			_equal = false;
-		};
-		_i = _i + 1;
-	};
-	if (_equal) then
-	{
+	if ([_markerPrefix, _x] call BIS_fnc_inString) then {
 		_area = ((markerSize _x) select 0) * ((markerSize _x) select 1);
 		totalMarkerArea = totalMarkerArea + _area;
 		markerAreaArray set [_j, [_x, _area]];
@@ -261,28 +248,41 @@ while {true} do
 	bObjW = false;
 	bObjE = false;
 
+
+
 	// Create list of participating players
 	_dUnitArr = [];
 	_aUnitArr = [];
 	_dUnitCount = 0;
 	_aUnitCount = 0;
+
+
+	_dUnitArr = allUnits select {
+		(isPlayer _x) &&
+		(alive _x) &&
+		(_x getVariable ["ready", false])
+	};
+	_dUnitCount = count _dUnitArr;
+
 	{
-		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", false])) then
-		{
-			if (side _x == attackerSide) then
-			{
-				_aUnitArr set [_aUnitCount, _x];
-				_aUnitCount = _aUnitCount + 1;
-			}
-			else
-			{
-				_dUnitArr set [_dUnitCount, _x];
-				_dUnitCount = _dUnitCount + 1;
-			};
-			_x setVariable ["ready", false];
-			_x setVariable ["isPlaying", true, true];
-		};
-	} forEach allUnits;
+		_x setVariable ["ready", false];
+		_x setVariable ["isPlaying", true, true];
+	} forEach _dUnitArr;
+
+	_aUnitArr = allUnits select {
+		(isPlayer _x) &&
+		(alive _x) &&
+		(_x getVariable ["ready", false])
+	};
+	_aUnitCount = count _aUnitArr;
+
+	{
+		_x setVariable ["ready", false];
+		_x setVariable ["isPlaying", true, true];
+	} forEach _aUnitArr;
+
+
+
 
 	// special lastPlayersCountdown variable when less than 5 participating players
 	ulastPlayersCountdown = 0;
@@ -315,18 +315,18 @@ while {true} do
 	_groups = allGroups;
 	_groupIndex = 0;
 	_maxGroupIndex = count _groups;
-	_bCont = true;
-	while {_bCont} do
+	_moreGroupsToSpawn = true;
+	while {_moreGroupsToSpawn} do
 	{
-		_bSpawn = false;
+		_shouldSpawnThisGroup = false;
 		if (_groupIndex < _maxGroupIndex) then
 		{
 			_group = _groups select _groupIndex;
 			_groupIndex = _groupIndex + 1;
 			_units = units _group;
-			if (((side _group) == attackerSide) && ((count (units _group)) >= _minGroupSize)) then
+			if (((side _group) isEqualTo attackerSide) && ((count _units) >= _minGroupSize)) then
 			{
-				_bSpawn = true;
+				_shouldSpawnThisGroup = true;
 				_unitsWithoutGroup = _unitsWithoutGroup - _units;
 				_slotCount = 0;
 				switch (_group getVariable ["insertionType", 0]) do
@@ -335,7 +335,7 @@ while {true} do
 					case 0:
 					{
 						_vehType = call _jeepType;
-						_slotCount = ([_vehType, true] call BIS_fnc_crewCount) min 4;
+						_slotCount = ([_vehType, true] call BIS_fnc_crewCount);
 					};
 					// Boat
 					case 1:
@@ -361,35 +361,40 @@ while {true} do
 		else
 		{
 			_units = _unitsWithoutGroup;
-			_bCont = false;
-			_bSpawn = (count _units > 0);
+			_moreGroupsToSpawn = false;
+			_shouldSpawnThisGroup = (count _units > 0);
 
 			_vehType = call _jeepType;
-			_slotCount = 4;
+			_slotCount = ([_vehType, true] call BIS_fnc_crewCount);
 		};
 
-		if (_bSpawn) then
+		if (_shouldSpawnThisGroup) then
 		{
+			// how many vehicles to spawn for this group
 			_vehCount = ceil ((count _units) / (_slotCount));
+
 			_pos = defaultInsertionPos;
-			if (_bCont) then
-			{
+			if (_moreGroupsToSpawn) then {
+				// if spawning a group, check if the leader has chosen a custom position
 				_pos = _group getVariable ["insertionPos", defaultInsertionPos];
 			};
 
 			_vehicleIndex = count vehArr;
 
-			for "_i" from 0 to (_vehCount - 1) do
-			{
-				// _pos = (_pos) findEmptyPosition [5, 100, _vehType];
-				_pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
+			for "_i" from 0 to (_vehCount - 1) do {
+				_pos = _pos findEmptyPosition [5, 100, _vehType];
+				if (count _pos isEqualTo 0) then {
+					// failed, just check isFlatEmpty
+					_pos = _pos isFlatEmpty [50,250,-1,-1,1,0,false];
+				};
+				// _pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
 				if (surfaceIsWater _pos) then
 				{
 					_spawnMode = "FLY";
 				};
-				_veh = createVehicle [_vehType, _pos, [], 3, _spawnMode];
+				_veh = createVehicle [_vehType, _pos, [], 0, _spawnMode];
 				_veh setDir (_pos getDir objPos);
 
 				clearWeaponCargoGlobal _veh;
