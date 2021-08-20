@@ -337,6 +337,7 @@ while {true} do
 	player setVelocity [0,0,0];
 	if (sidePlayer == attackerSide) then
 	{
+		bKeepPlayerInBox = false;
 		//put in assigned vehicle (attackers)
 		if ((vehicle player == player) && (isNil "currentVeh")) then
 		{
