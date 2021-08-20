@@ -155,7 +155,8 @@ currentVehHandler =
 	bKeepPlayerInBox = false;
 
 	// Place the player near the vehicle, just in case getting the the vehicle gets messed up.
-	player setPos ([getPos _veh, 3] call fnc_findFlatEmpty);
+	player setPos ((position _veh) findEmptyPosition [2, 20]);
+	
 
 	// Get in the vehicle.
 	if (_roleIndex == 0) then
@@ -178,10 +179,23 @@ currentVehHandler =
 			player moveInCargo [_veh, _slotIndex];
 		};
 	};
+
+	// bKeepPlayerInBox = false;
+
+	// params ["_vehicle", "_driver"];
+
+	// if (!isNull _driver) then {
+	// 	if (player isEqualTo _driver) then {
+	// 		player moveInDriver _vehicle;
+	// 	} else {
+	// 		player moveInAny _vehicle;
+	// 	};
+	// } else {
+		// player moveInAny _vehicle;
+	// };
 };
-"currentVeh" addPublicVariableEventHandler
-{
-	[_this select 1] call currentVehHandler;
+"currentVeh" addPublicVariableEventHandler {
+	[_this # 1] call currentVehHandler;
 };
 
 // Wait until we have an objective and then call the handler manually (initial run)

@@ -249,7 +249,6 @@ while {true} do
 	bObjE = false;
 
 
-
 	// Create list of participating players
 	_dUnitArr = [];
 	_aUnitArr = [];
@@ -257,29 +256,23 @@ while {true} do
 	_aUnitCount = 0;
 
 
-	_dUnitArr = allUnits select {
-		(isPlayer _x) &&
-		(alive _x) &&
-		(_x getVariable ["ready", false])
-	};
-	_dUnitCount = count _dUnitArr;
-
 	{
-		_x setVariable ["ready", false];
-		_x setVariable ["isPlaying", true, true];
-	} forEach _dUnitArr;
-
-	_aUnitArr = allUnits select {
-		(isPlayer _x) &&
-		(alive _x) &&
-		(_x getVariable ["ready", false])
-	};
-	_aUnitCount = count _aUnitArr;
-
-	{
-		_x setVariable ["ready", false];
-		_x setVariable ["isPlaying", true, true];
-	} forEach _aUnitArr;
+		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", false])) then
+		{
+			if (side _x == attackerSide) then
+			{
+				_aUnitArr set [_aUnitCount, _x];
+				_aUnitCount = _aUnitCount + 1;
+			}
+			else
+			{
+				_dUnitArr set [_dUnitCount, _x];
+				_dUnitCount = _dUnitCount + 1;
+			};
+			_x setVariable ["ready", false];
+			_x setVariable ["isPlaying", true, true];
+		};
+	} forEach allUnits;
 
 
 
@@ -310,6 +303,7 @@ while {true} do
 
 	//Handle vehicle spawning and assignment
 	vehArr = [];
+	private _units = [];
 	_minGroupSize = [] call fnc_minGroupSize;
 	_unitsWithoutGroup = [] + _aUnitArr;
 	_groups = allGroups;
@@ -318,6 +312,7 @@ while {true} do
 	_moreGroupsToSpawn = true;
 	while {_moreGroupsToSpawn} do
 	{
+		
 		_shouldSpawnThisGroup = false;
 		if (_groupIndex < _maxGroupIndex) then
 		{
@@ -372,7 +367,7 @@ while {true} do
 		{
 			// how many vehicles to spawn for this group
 			_vehCount = ceil ((count _units) / (_slotCount));
-
+			private _veh = objNull;
 			_pos = defaultInsertionPos;
 			if (_moreGroupsToSpawn) then {
 				// if spawning a group, check if the leader has chosen a custom position
@@ -396,13 +391,39 @@ while {true} do
 				};
 				_veh = createVehicle [_vehType, _pos, [], 0, _spawnMode];
 				_veh setDir (_pos getDir objPos);
+				currentVeh pushBack _veh;
 
 				clearWeaponCargoGlobal _veh;
 				clearMagazineCargoGlobal _veh;
 				clearItemCargoGlobal _veh;
 				clearBackpackCargoGlobal _veh;
 				vehArr set [count vehArr, _veh];
+
+				// // _wantsToDrive = selectRandom (_units select {_x getVariable ["preferDriver", false]});
+				// if (isNil "_wantsToDrive") then {
+				// 	// currentVeh pushBack objNull;
+				// 	{
+				// 		// (owner _x) publicVariableClient "currentVeh";
+				// 		[_x, _veh] remoteExecCall ["moveInAny", _x];
+				// 	} forEach _units;
+				// } else {
+				// 	// currentVeh pushBack _wantsToDrive;
+					
+				// 	// (owner _wantsToDrive) publicVariableClient "currentVeh";
+				// 	[_wantsToDrive, _vehcurrentVeh] remoteExecCall ["moveInDriver", _wantsToDrive];
+
+				// 	sleep 0.1;
+
+				// 	// (owner _x) publicVariableClient "currentVeh";
+				// 	{
+				// 		[_x, _veh] remoteExecCall ["moveInAny", _x];
+				// 	} forEach (_units select {!(_x isEqualTo _wantsToDrive)});
+				// };
 			};
+
+
+
+			
 
 			_driverArray = [];
 			_driverArrayCount = 0;

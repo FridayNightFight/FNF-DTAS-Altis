@@ -226,7 +226,8 @@ fnc_minGroupSize =
 		_minGroupSize = 3;
 	};
 	
-	_minGroupSize
+	_minGroupSize;
+	2
 };
 
 fnc_respawn =
