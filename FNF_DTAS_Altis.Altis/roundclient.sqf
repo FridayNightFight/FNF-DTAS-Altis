@@ -155,7 +155,8 @@ currentVehHandler =
 	bKeepPlayerInBox = false;
 
 	// Place the player near the vehicle, just in case getting the the vehicle gets messed up.
-	player setPos ((position _veh) findEmptyPosition [2, 20]);
+	player setPos ([getPos _veh, 3] call fnc_findFlatEmpty);
+	// player setPos ((position _veh) findEmptyPosition [2, 20]);
 	
 
 	// Get in the vehicle.
@@ -306,7 +307,7 @@ while {true} do
 
 	//Set the vars
 	player setVariable ["isPlaying", false];
-	player setVariable ["ready", true, true];
+	// player setVariable ["ready", true, true];
 
 	//This is some weird code...but I'm pretty sure it stops the script until the round starts
 	while {(!roundInProgress) || (!(player getVariable ["isPlaying", false]))} do
@@ -318,7 +319,7 @@ while {true} do
 		if (!alive player) then
 		{
 			[false] call fnc_respawn;
-			player setVariable ["ready", true, true];
+			// player setVariable ["ready", true, true];
 		};
 	};
 
@@ -454,7 +455,7 @@ while {true} do
 	waitUntil {!roundInProgress};
 
 	//Some crap I don't care about that happens after the round ends
-	(group player) setVariable ["groupReady", false];
+	// (group player) setVariable ["groupReady", false];
 	"mrkDefaultInsertion" setMarkerAlphaLocal 0;
 	[] call fnc_reveal;
 	[] call fnc_roundEndMessage;

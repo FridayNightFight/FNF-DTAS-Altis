@@ -26,27 +26,27 @@ fnc_addActions =
 	"];
 };
 
-fnc_allGroupsReady =
-{
-	private ["_ready", "_minGroupSize", "_group", "_atLeastOneGroup"];
-	_ready = true;
-	_atLeastOneGroup = false;
-	_minGroupSize = [] call fnc_minGroupSize;
-	{
-		_group = _x;
-		//if ((side _group == attackerSide) && (count (units _group)) >= _minGroupSize) then
-		if ((count (units _group)) >= _minGroupSize) then
-		{
-			_atLeastOneGroup = true;
-			if (!(_group getVariable ["groupReady", false])) then
-			{
-				_ready = false;
-			};
-		};
-	} forEach allGroups;
+// fnc_allGroupsReady =
+// {
+// 	private ["_ready", "_minGroupSize", "_group", "_atLeastOneGroup"];
+// 	_ready = true;
+// 	_atLeastOneGroup = false;
+// 	_minGroupSize = [] call fnc_minGroupSize;
+// 	{
+// 		_group = _x;
+// 		//if ((side _group == attackerSide) && (count (units _group)) >= _minGroupSize) then
+// 		if ((count (units _group)) >= _minGroupSize) then
+// 		{
+// 			_atLeastOneGroup = true;
+// 			if (!(_group getVariable ["groupReady", false])) then
+// 			{
+// 				_ready = false;
+// 			};
+// 		};
+// 	} forEach allGroups;
 	
-	(_ready && _atLeastOneGroup)
-};
+// 	(_ready && _atLeastOneGroup)
+// };
 
 fnc_airDistance =
 {
@@ -298,7 +298,7 @@ fnc_setupObjPos =
 			_group setVariable ["insertionPos", defaultInsertionPos, true];
 			_group setVariable ["insertionPosPicked", false, true];
 		};
-		_group setVariable ["groupReady", false, true];
+		// _group setVariable ["groupReady", false, true];
 	} forEach allGroups;
 	
 	trgObj setPos objPos;

@@ -72,8 +72,9 @@ if (!isDedicated) then
 
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;
 
-	sidePlayer = side player;
+	sidePlayer = playerSide;
 	isJoining = false;
+	player setVariable ["ready", false, true];
 
 	execVM "briefing.sqf";
 	execVM "QS_icons.sqf";

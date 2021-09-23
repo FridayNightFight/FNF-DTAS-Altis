@@ -83,7 +83,7 @@ adminObjPosClickHandler =
 	_obj addAction [format ["<t color='#ffe400'>%1</t>", (_x select 0)], "pickspawnaction.sqf", [_x select 1], (_x select 2), false, true, "", "canChangeClass && (!roundInProgress) && (attackerSide == sidePlayer) && ([player] call fnc_isLeaderWithGroup)"];
 } forEach [[localize "STR_JeepInsertion", 0, 14]/*, [localize "STR_BoatInsertion", 1, 13], [localize "STR_SubmarineInsertion", 2, 12],[localize "STR_LittlebirdInsertion", 3, 11]*/];
 
-_obj addAction [format ["<t color='#32cd32'>%1</t>", localize "STR_Ready"], "readyaction.sqf", [], 5, false, true, "", "(!roundInProgress) && (!((group player) getVariable ['groupReady', false])) && ([player] call fnc_isLeaderWithGroup)"];
+// _obj addAction [format ["<t color='#32cd32'>%1</t>", localize "STR_Ready"], "readyaction.sqf", [], 5, false, true, "", "(!roundInProgress) && (!((group player) getVariable ['groupReady', false])) && ([player] call fnc_isLeaderWithGroup)"];
 
 //Launch spectator
 _obj addAction ["Spectate", "[] call fnc_nextSpectateUnit", [], 0, false, false, ""];

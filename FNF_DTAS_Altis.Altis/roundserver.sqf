@@ -30,7 +30,7 @@ canChangeClass = true;
 currentSetupTime = FirstRoundSetupTime;
 adminPaused = false;
 updateTime = false;
-trainingRound = ["trainingRound",0] call BIS_fnc_getParamValue;;
+trainingRound = ["trainingRound",0] call BIS_fnc_getParamValue;
 if (DefaultAdminPaused > 0) then
 {
 	adminPaused = true;
@@ -193,12 +193,12 @@ while {true} do
 				roundStartTime = time + currentSetupTime;
 				//roundStart = false;
 			};
-			forceRoundStart || ((time > roundStartTime || ([] call fnc_allGroupsReady)) && ([] call fnc_hasPlayers))
+			forceRoundStart || (time > roundStartTime) && ([] call fnc_hasPlayers)
 		};
 	}
 	else
 	{
-		waitUntil {forceRoundStart || (([] call fnc_allGroupsReady) && ([] call fnc_hasPlayers))};
+		waitUntil {forceRoundStart || [] call fnc_hasPlayers};
 	};
 
 	// Don't start until admin un-paused the round start.
@@ -257,7 +257,7 @@ while {true} do
 
 
 	{
-		if ((isPlayer _x) && (alive _x) && (_x getVariable ["ready", false])) then
+		if ((isPlayer _x) && (alive _x)) then
 		{
 			if (side _x == attackerSide) then
 			{
@@ -269,7 +269,7 @@ while {true} do
 				_dUnitArr set [_dUnitCount, _x];
 				_dUnitCount = _dUnitCount + 1;
 			};
-			_x setVariable ["ready", false];
+			_x setVariable ["ready", true, true];
 			_x setVariable ["isPlaying", true, true];
 		};
 	} forEach allUnits;
@@ -304,33 +304,31 @@ while {true} do
 	//Handle vehicle spawning and assignment
 	vehArr = [];
 	private _units = [];
-	_minGroupSize = [] call fnc_minGroupSize;
-	_unitsWithoutGroup = [] + _aUnitArr;
-	_groups = allGroups;
-	_groupIndex = 0;
-	_maxGroupIndex = count _groups;
-	_moreGroupsToSpawn = true;
+	private _minGroupSize = [] call fnc_minGroupSize;
+	private _unitsWithoutGroup = [] + _aUnitArr;
+	private _groups = allGroups;
+	private _groupIndex = 0;
+	private _maxGroupIndex = count _groups;
+	private _moreGroupsToSpawn = true;
+	private _shouldSpawnThisGroup = false;
+
 	while {_moreGroupsToSpawn} do
 	{
-		
-		_shouldSpawnThisGroup = false;
 		if (_groupIndex < _maxGroupIndex) then
 		{
 			_group = _groups select _groupIndex;
 			_groupIndex = _groupIndex + 1;
 			_units = units _group;
-			if (((side _group) isEqualTo attackerSide) && ((count _units) >= _minGroupSize)) then
-			{
+			if (((side _group) isEqualTo attackerSide)/*  && ((count _units) >= _minGroupSize) */) then {
 				_shouldSpawnThisGroup = true;
 				_unitsWithoutGroup = _unitsWithoutGroup - _units;
 				_slotCount = 0;
-				switch (_group getVariable ["insertionType", 0]) do
-				{
+				switch (_group getVariable ["insertionType", 0]) do {
 					// Jeep
 					case 0:
 					{
 						_vehType = call _jeepType;
-						_slotCount = ([_vehType, true] call BIS_fnc_crewCount);
+						_slotCount = ([_vehType, true] call BIS_fnc_crewCount) max 2;
 					};
 					// Boat
 					case 1:
@@ -352,23 +350,42 @@ while {true} do
 					};
 				};
 			};
-		}
-		else
-		{
+		} else {
 			_units = _unitsWithoutGroup;
 			_moreGroupsToSpawn = false;
 			_shouldSpawnThisGroup = (count _units > 0);
 
 			_vehType = call _jeepType;
-			_slotCount = ([_vehType, true] call BIS_fnc_crewCount);
+			_slotCount = ([_vehType, true] call BIS_fnc_crewCount) max 2;
 		};
 
-		if (_shouldSpawnThisGroup) then
-		{
+		if (_shouldSpawnThisGroup) then {
 			// how many vehicles to spawn for this group
 			_vehCount = ceil ((count _units) / (_slotCount));
 			private _veh = objNull;
+			private ["_pos", "_dir"];
 			_pos = defaultInsertionPos;
+			_roads = _pos nearRoads 300;
+			if (count _roads > 0) then {
+				_thisGroupRoad = _roads select (random((count _roads) - 1));
+				(getRoadInfo _thisGroupRoad) params [
+					"_mapType",
+					"_width",
+					"_isPedestrian",
+					"_texture",
+					"_textureEnd",
+					"_material",
+					"_begPos",
+					"_endPos",
+					"_isBridge"
+				];
+				
+				_pos = getPosATL _thisGroupRoad;
+				_dir = _begPos getDir _endPos;
+			} else {
+				_dir = (_pos getDir objPos);
+			};
+
 			if (_moreGroupsToSpawn) then {
 				// if spawning a group, check if the leader has chosen a custom position
 				_pos = _group getVariable ["insertionPos", defaultInsertionPos];
@@ -385,13 +402,9 @@ while {true} do
 				// _pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
-				if (surfaceIsWater _pos) then
-				{
-					_spawnMode = "FLY";
-				};
+				if (surfaceIsWater _pos) then { _spawnMode = "FLY" };
 				_veh = createVehicle [_vehType, _pos, [], 0, _spawnMode];
-				_veh setDir (_pos getDir objPos);
-				currentVeh pushBack _veh;
+				_veh setDir _dir;
 
 				clearWeaponCargoGlobal _veh;
 				clearMagazineCargoGlobal _veh;
@@ -430,20 +443,16 @@ while {true} do
 			_passengerArray = [];
 			_passengerArrayCount = 0;
 			{
-				if (_x getVariable ["preferDriver", false]) then
-				{
+				if (_x getVariable ["preferDriver", false]) then {
 					_driverArray set [_driverArrayCount, _x];
 					_driverArrayCount = _driverArrayCount + 1;
-				}
-				else
-				{
+				} else {
 					_passengerArray set [_passengerArrayCount, _x];
 					_passengerArrayCount = _passengerArrayCount + 1;
 				};
 			} forEach _units;
 
-			for "_i" from 0 to (_vehCount - 1 - _driverArrayCount) do
-			{
+			for "_i" from 0 to (_vehCount - 1 - _driverArrayCount) do {
 				_driverArray set [_driverArrayCount, _passengerArray select _i];
 				_driverArrayCount = _driverArrayCount + 1;
 			};
@@ -451,34 +460,26 @@ while {true} do
 			_passengerArray = _passengerArray - _driverArray;
 			_passengerArrayCount = count _passengerArray;
 
-			for "_i" from _vehCount to (_driverArrayCount - 1) do
-			{
+			for "_i" from _vehCount to (_driverArrayCount - 1) do {
 				_passengerArray set [_passengerArrayCount, _driverArray select _i];
 				_passengerArrayCount = _passengerArrayCount + 1;
 			};
 
-			for "_i" from 0 to (_vehCount - 1) do
-			{
+			for "_i" from 0 to (_vehCount - 1) do {
 				currentVeh = [vehArr select _vehicleIndex + _i, 0];
 				(owner (_driverArray select _i)) publicVariableClient "currentVeh";
-				if (!isDedicated) then
-				{
-					if (player == (_driverArray select _i)) then
-					{
+				if (!isDedicated) then {
+					if (player == (_driverArray select _i)) then {
 						//[currentVeh] call currentVehHandler;
 					};
 				};
 
-				for "_j" from 0 to (_slotCount - 2) do
-				{
-					if (((_i * (_slotCount - 1)) + _j) < _passengerArrayCount) then
-					{
+				for "_j" from 0 to (_slotCount - 2) do {
+					if (((_i * (_slotCount - 1)) + _j) < _passengerArrayCount) then {
 						currentVeh set [1, _j + 1];
 						(owner (_passengerArray select ((_i * (_slotCount - 1)) + _j))) publicVariableClient "currentVeh";
-						if (!isDedicated) then
-						{
-							if (player == (_passengerArray select ((_i * (_slotCount - 1)) + _j))) then
-							{
+						if (!isDedicated) then {
+							if (player == (_passengerArray select ((_i * (_slotCount - 1)) + _j))) then {
 								[currentVeh] call currentVehHandler;
 							};
 						};
@@ -488,8 +489,7 @@ while {true} do
 		};
 	};
 
-	[] spawn
-	{
+	[] spawn {
 		sleep 1;
 		canChangeClass = true;
 		publicVariable "canChangeClass";
@@ -497,13 +497,10 @@ while {true} do
 
 	// Tell clients to run generic vehicle initialization scripts
 	publicVariable "vehArr";
-	if (!isDedicated) then
-	{
+	if (!isDedicated) then {
 		//Make sure scripts run on host
 		[] call vehArrHandler;
-	}
-	else
-	{
+	} else {
 		// Run invulnerability script on server too (already runs on host and clients from vehArrHandler)
 		[] call fnc_vehicleAllowDamage;
 	};
@@ -518,8 +515,7 @@ while {true} do
 	publicVariable "roundInProgress";
 
 	// If parameter was chosen, pause the next round start timer.
-	if (DefaultAdminPaused > 1) then
-	{
+	if (DefaultAdminPaused > 1) then {
 		adminPaused = true;
 		publicVariable "adminPaused";
 	};
@@ -554,7 +550,7 @@ while {true} do
 	[defHasMat, 2, "D"] call fnc_limitMATCount;
 	[atkHasMat, 2, "A"] call fnc_limitMATCount;
 
-	sleep 10;
+	sleep 2;
 
 
 	waitUntil
