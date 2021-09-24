@@ -79,8 +79,8 @@ fnc_hasPlayers =
 	
 	{
 		_unit = _x;
-		if (_unit getVariable ["ready", false]) then
-		{
+		// if (_unit getVariable ["ready", false]) then
+		// {
 			if ((side _unit) == attackerSide) then
 			{
 				_aCount = _aCount + 1;
@@ -89,7 +89,7 @@ fnc_hasPlayers =
 			{
 				_dCount = _dCount + 1;
 			};
-		};
+		// };
 	} forEach allUnits;
 	
 	((_aCount > 0) && (_dCount > 0))

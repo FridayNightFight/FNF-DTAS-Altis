@@ -306,7 +306,7 @@ while {true} do
 	private _units = [];
 	private _minGroupSize = [] call fnc_minGroupSize;
 	private _unitsWithoutGroup = [] + _aUnitArr;
-	private _groups = allGroups;
+	private _groups = allGroups select {side _x == attackerSide};
 	private _groupIndex = 0;
 	private _maxGroupIndex = count _groups;
 	private _moreGroupsToSpawn = true;
