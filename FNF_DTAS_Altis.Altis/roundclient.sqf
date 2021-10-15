@@ -155,31 +155,33 @@ currentVehHandler =
 	bKeepPlayerInBox = false;
 
 	// Place the player near the vehicle, just in case getting the the vehicle gets messed up.
-	player setPos ([getPos _veh, 3] call fnc_findFlatEmpty);
-	// player setPos ((position _veh) findEmptyPosition [2, 20]);
+	// player setPos ([getPos _veh, 3] call fnc_findFlatEmpty);
+	player setPos ((position _veh) findEmptyPosition [2, 20, "B_Soldier_F"]);
+
+	player moveInAny _veh;
 	
 
 	// Get in the vehicle.
-	if (_roleIndex == 0) then
-	{
-		player moveInDriver _veh;
-	}
-	else
-	{
-		_slotIndex = _roleIndex - 1;
-		if (((toLower (typeOf _veh)) == (toLower "B_Heli_Light_01_F")) || ((toLower (typeOf _veh)) == (toLower "B_SDV_01_F"))) then
-		{
-			_slotIndex = _slotIndex - 1;
-		};
-		if (_slotIndex < 0) then
-		{
-			player moveInTurret [_veh, [0]];
-		}
-		else
-		{
-			player moveInCargo [_veh, _slotIndex];
-		};
-	};
+	// if (_roleIndex == 0) then
+	// {
+	// 	player moveInDriver _veh;
+	// }
+	// else
+	// {
+	// 	_slotIndex = _roleIndex - 1;
+	// 	if (((toLower (typeOf _veh)) == (toLower "B_Heli_Light_01_F")) || ((toLower (typeOf _veh)) == (toLower "B_SDV_01_F"))) then
+	// 	{
+	// 		_slotIndex = _slotIndex - 1;
+	// 	};
+	// 	if (_slotIndex < 0) then
+	// 	{
+	// 		player moveInTurret [_veh, [0]];
+	// 	}
+	// 	else
+	// 	{
+	// 		player moveInCargo [_veh, _slotIndex];
+	// 	};
+	// };
 
 	// bKeepPlayerInBox = false;
 

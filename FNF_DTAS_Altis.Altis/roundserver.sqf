@@ -312,6 +312,13 @@ while {true} do
 	private _moreGroupsToSpawn = true;
 	private _shouldSpawnThisGroup = false;
 
+	{_x enableSimulationGlobal false} forEach allPlayers;
+
+	
+	private _keyRoad = (defaultInsertionPos nearRoads 400) select 0;
+	private _roadSelect = -1;
+	
+
 	while {_moreGroupsToSpawn} do
 	{
 		if (_groupIndex < _maxGroupIndex) then
@@ -363,54 +370,56 @@ while {true} do
 			// how many vehicles to spawn for this group
 			_vehCount = ceil ((count _units) / (_slotCount));
 			private _veh = objNull;
-			private ["_pos", "_dir"];
-			_pos = defaultInsertionPos;
-			_roads = _pos nearRoads 300;
-			if (count _roads > 0) then {
-				_thisGroupRoad = _roads select (random((count _roads) - 1));
-				(getRoadInfo _thisGroupRoad) params [
-					"_mapType",
-					"_width",
-					"_isPedestrian",
-					"_texture",
-					"_textureEnd",
-					"_material",
-					"_begPos",
-					"_endPos",
-					"_isBridge"
-				];
-				
-				_pos = getPosATL _thisGroupRoad;
-				_dir = _begPos getDir _endPos;
-			} else {
-				_dir = (_pos getDir objPos);
+
+			// spawn on a road
+			_roadSelect = _roadSelect + 1;
+			private _thisGroupRoad = (roadsConnectedTo _keyRoad) select 0;
+			for "_i" from 0 to (_roadSelect * 5) do {
+				_thisGroupRoad = (roadsConnectedTo _thisGroupRoad) select 0;
 			};
+			(getRoadInfo _thisGroupRoad) params [
+				"_mapType",
+				"_width",
+				"_isPedestrian",
+				"_texture",
+				"_textureEnd",
+				"_material",
+				"_begPos",
+				"_endPos",
+				"_isBridge"
+			];
+			
+			_roadPos = getPosATL _thisGroupRoad;
+			_dir = _begPos getDir _endPos;
+			
 
 			if (_moreGroupsToSpawn) then {
 				// if spawning a group, check if the leader has chosen a custom position
-				_pos = _group getVariable ["insertionPos", defaultInsertionPos];
+				_roadPos = _group getVariable ["insertionPos", defaultInsertionPos];
 			};
 
 			_vehicleIndex = count vehArr;
 
 			for "_i" from 0 to (_vehCount - 1) do {
-				_pos = _pos findEmptyPosition [5, 100, _vehType];
-				if (count _pos isEqualTo 0) then {
+				_pos = _roadPos findEmptyPosition [5, 100, _vehType];
+				if ((_pos # 0) isEqualTo 0) then {
 					// failed, just check isFlatEmpty
-					_pos = _pos isFlatEmpty [50,250,-1,-1,1,0,false];
+					// _pos = _roadPos isFlatEmpty [50,250,-1,-1,1,0,false];
+					_pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
 				};
-				// _pos = [_pos, 0, 250, 6, 0, 60, 0] call BIS_fnc_findSafePos;
 				_spawnMode = "NONE";
 				// If position is on water, spawn flying.
 				if (surfaceIsWater _pos) then { _spawnMode = "FLY" };
 				_veh = createVehicle [_vehType, _pos, [], 0, _spawnMode];
-				_veh setDir _dir;
+				// _veh setDir _dir;
 
 				clearWeaponCargoGlobal _veh;
 				clearMagazineCargoGlobal _veh;
 				clearItemCargoGlobal _veh;
 				clearBackpackCargoGlobal _veh;
 				vehArr set [count vehArr, _veh];
+
+				sleep 0.3;
 
 				// // _wantsToDrive = selectRandom (_units select {_x getVariable ["preferDriver", false]});
 				// if (isNil "_wantsToDrive") then {
@@ -506,6 +515,8 @@ while {true} do
 	};
 
 	sleep 1.5;
+
+	{_x enableSimulationGlobal true} forEach allPlayers;
 
 	roundEnd = 0;
 	publicVariable "roundEnd";

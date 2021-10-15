@@ -95,8 +95,8 @@ _obj addAction ["Spectate", "[] call fnc_nextSpectateUnit", [], 0, false, false,
 // _obj addAction [format ["<t color='#AAB43A'>%1</t>", localize "STR_DisableCommandChannel"], "enablecommandchannel.sqf", [false], 1, false, true, "", "commandChannelEnabled"];
 
 //Driving
-_obj addAction [format ["<t color='#a0a0a0'>%1</t>", localize "STR_PreferDriving"], "preferdriving.sqf", [true], 3, false, true, "", "!preferDriver"];
-_obj addAction [format ["<t color='#c0c0c0'>%1</t>", localize "STR_PreferNotDriving"], "preferdriving.sqf", [false], 3, false, true, "", "preferDriver"];
+// _obj addAction [format ["<t color='#a0a0a0'>%1</t>", localize "STR_PreferDriving"], "preferdriving.sqf", [true], 3, false, true, "", "!preferDriver"];
+// _obj addAction [format ["<t color='#c0c0c0'>%1</t>", localize "STR_PreferNotDriving"], "preferdriving.sqf", [false], 3, false, true, "", "preferDriver"];
 	
 //Admin shit
 _obj addAction [format ["<t color='#CA2E2E'>%1</t>", localize "STR_ForceRoundStart"], "adminactions\forceroundstart.sqf", [], 0, false, false, "", "([] call fnc_isAdmin) && !roundInProgress"];
